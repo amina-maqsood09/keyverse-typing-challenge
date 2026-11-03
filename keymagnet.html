@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="KeyMagnet – a KEYVERSE keyboard precision game. Choose a key set and difficulty, then press each target key as fast and accurately as you can.">
+  <title>KeyMagnet · KEYVERSE</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap 5.3 + Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <!-- Shared KEYVERSE base (navbar, tokens), then KeyMagnet's own design system -->
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/responsive.css" rel="stylesheet">
+  <link href="css/keymagnet.css" rel="stylesheet">
+</head>
+
+<body class="km-page">
+
+  <!-- ============================================================
+       NAVIGATION BAR (shared with the homepage)
+       ============================================================ -->
+  <nav class="navbar navbar-expand-lg fixed-top kv-navbar" id="mainNav" aria-label="Main navigation">
+    <div class="container">
+      <a class="navbar-brand kv-brand" href="index.html" aria-label="KEYVERSE home">
+        <span class="kv-logo" aria-hidden="true"><i class="bi bi-keyboard"></i></span>
+        <span>KEY<span class="kv-accent">VERSE</span></span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+        aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+          <li class="nav-item"><a class="nav-link kv-nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link kv-nav-link" href="index.html#modes">Game Modes</a></li>
+          <li class="nav-item"><a class="nav-link kv-nav-link" href="index.html#how-to-play">How to Play</a></li>
+          <li class="nav-item"><a class="nav-link kv-nav-link" href="index.html#features">Features</a></li>
+          <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+            <a class="btn kv-btn-primary btn-sm px-4" href="#launch">Start Playing</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="km-main">
+    <div class="km-container">
+
+      <!-- ==========================================================
+           LAUNCH VIEW – game setup (shown before every session)
+           ========================================================== -->
+      <section class="km-launch" id="launch" aria-labelledby="gameTitle">
+
+        <!-- Hero: title and copy on the left, live target preview on the right -->
+        <header class="km-hero">
+          <div class="km-hero-copy">
+            <a class="km-back" href="index.html#modes">
+              <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Games
+            </a>
+            <p class="km-kicker">Keyboard precision · Arcade</p>
+            <h1 class="km-game-title" id="gameTitle">KeyMagnet</h1>
+            <p class="km-lead">
+              A target letter appears. Hit it before the clock runs out, keep your streak alive
+              and train every row of the keyboard.
+            </p>
+            <ul class="km-hero-facts">
+              <li><strong>4</strong> key sets</li>
+              <li><strong>3</strong> difficulties</li>
+              <li><strong>3</strong> live stats</li>
+            </ul>
+          </div>
+
+          <aside class="km-preview" id="previewCard" aria-label="Live preview of the selected key set">
+            <div class="km-preview-top">
+              <span>Live preview</span>
+              <span id="previewCount">7 keys</span>
+            </div>
+            <div class="km-preview-target" aria-hidden="true">
+              <span id="previewTarget">A</span>
+            </div>
+            <p class="km-preview-caption">Targets come only from the lit keys.</p>
+            <div class="km-mini-kb" id="previewKeyboard" aria-hidden="true"></div>
+          </aside>
+        </header>
+
+        <div class="km-setup">
+
+          <!-- 01 · Key set -->
+          <section class="km-block" aria-labelledby="modeTitle">
+            <header class="km-block-head">
+              <span class="km-step" aria-hidden="true">01</span>
+              <div>
+                <h2 id="modeTitle">Choose your keys</h2>
+                <p>Each set lights its keys on a real keyboard layout.</p>
+              </div>
+            </header>
+            <!-- Set tiles are rendered by keymagnet.js from CONFIG.keySets -->
+            <div class="km-set-grid" id="modeGrid" role="radiogroup" aria-labelledby="modeTitle"></div>
+          </section>
+
+          <!-- 02 · Difficulty -->
+          <section class="km-block" aria-labelledby="diffTitle">
+            <header class="km-block-head">
+              <span class="km-step" aria-hidden="true">02</span>
+              <div>
+                <h2 id="diffTitle">Pick your difficulty</h2>
+                <p>Changes the clock, the response window and the scoring.</p>
+              </div>
+            </header>
+            <!-- Difficulty rows are rendered by keymagnet.js from CONFIG.difficulties -->
+            <div class="km-diff-list" id="diffGrid" role="radiogroup" aria-labelledby="diffTitle"></div>
+          </section>
+
+        </div>
+
+        <!-- How to play: one compact strip, not another set of cards -->
+        <ol class="km-howto" aria-label="How to play">
+          <li><span>1</span> A target appears in the centre</li>
+          <li><span>2</span> Press the matching key</li>
+          <li><span>3</span> Beat the countdown bar</li>
+          <li><span>4</span> Build a streak for bigger points</li>
+        </ol>
+
+        <!-- Start bar: full width, always at the end of setup -->
+        <div class="km-start-bar">
+          <div class="km-start-info">
+            <span class="km-eyebrow">Ready when you are</span>
+            <p class="km-start-summary" id="startSummary">Home Row · Medium</p>
+          </div>
+          <button type="button" class="km-btn km-btn--start" id="btnStart">
+            Start Game <i class="bi bi-arrow-right" aria-hidden="true"></i>
+          </button>
+        </div>
+
+      </section>
+
+      <!-- ==========================================================
+           PLAY VIEW – the game itself (hidden until Start)
+           ========================================================== -->
+      <section class="km-play" id="playView" aria-label="Game in progress" hidden>
+
+        <!-- Top bar: three metrics and the game controls -->
+        <header class="km-topbar">
+          <div class="km-topbar-left">
+            <span class="km-topbar-title">KeyMagnet</span>
+            <span class="km-chip" id="chipSet">Home Row</span>
+            <span class="km-chip km-chip--muted" id="chipDiff">Medium</span>
+          </div>
+
+          <div class="km-metrics" aria-label="Live statistics">
+            <div class="km-metric">
+              <span>Score</span>
+              <strong id="hudScore">0</strong>
+            </div>
+            <div class="km-metric">
+              <span>Accuracy</span>
+              <strong id="hudAccuracy">—</strong>
+            </div>
+            <div class="km-metric">
+              <span>Time left</span>
+              <strong id="hudTime">1:15</strong>
+            </div>
+          </div>
+
+          <div class="km-toolbar">
+            <button type="button" class="km-icon-btn" id="btnPause" aria-label="Pause game" title="Pause (Esc)"
+              disabled>
+              <i class="bi bi-pause-fill" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="km-icon-btn" id="btnRestart" aria-label="Restart game" title="Restart"
+              disabled>
+              <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="km-icon-btn" id="btnReset" aria-label="Reset to setup" title="Reset to setup">
+              <i class="bi bi-x-lg" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="km-icon-btn" id="btnSound" aria-pressed="true" aria-label="Sound on"
+              title="Sound on / off">
+              <i class="bi bi-volume-up" aria-hidden="true"></i>
+            </button>
+          </div>
+        </header>
+
+        <!-- Progress: targets answered out of the session total -->
+        <div class="km-progress-row" aria-label="Session progress">
+          <span id="progressText">0 / 30</span>
+          <div class="km-progress" aria-hidden="true">
+            <div class="km-progress-fill" id="progressBar"></div>
+          </div>
+        </div>
+
+        <!-- The arena: target, countdown and overlays -->
+        <section class="km-arena" id="stage" aria-label="Target arena">
+
+          <div class="km-combo" id="comboBadge" aria-live="polite">
+            <span class="km-combo-label">Streak</span>
+            <span id="hudCombo">0</span>
+            <span class="km-combo-mult" id="hudMultiplier">x1</span>
+          </div>
+
+          <div class="km-target-wrap" id="targetWrap">
+            <p class="km-target-label">Press this key</p>
+            <div class="km-target-key" id="targetKey" aria-live="assertive">–</div>
+          </div>
+
+          <div class="km-window" aria-hidden="true">
+            <div class="km-window-bar" id="windowBar"></div>
+          </div>
+
+          <div class="km-fx" id="feedbackLayer" aria-hidden="true"></div>
+
+          <!-- Pause overlay -->
+          <div class="km-overlay" id="overlayPause" role="dialog" aria-labelledby="pauseTitle">
+            <div class="km-overlay-card">
+              <p class="km-eyebrow">Paused</p>
+              <h2 id="pauseTitle">Game paused</h2>
+              <p class="km-muted">The clock is stopped. Keys are ignored until you resume.</p>
+              <div class="km-actions">
+                <button type="button" class="km-btn km-btn--ghost" id="btnQuit">Quit to setup</button>
+                <button type="button" class="km-btn km-btn--primary" id="btnResume">Resume</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Results overlay -->
+          <div class="km-overlay" id="overlayResults" role="dialog" aria-labelledby="resMessage">
+            <div class="km-overlay-card km-overlay-card--wide">
+              <p class="km-eyebrow">Session complete</p>
+              <h2 id="resMessage">Strong, controlled run</h2>
+              <p class="km-muted" id="resReason"></p>
+
+              <div class="km-score-hero">
+                <span class="km-score-label">Final score</span>
+                <strong id="resScore">0</strong>
+                <span class="km-score-set" id="resSetLine">Home Row · Medium</span>
+              </div>
+
+              <div class="km-res-grid">
+                <div class="km-res-card km-res-card--good">
+                  <span>Correct</span>
+                  <strong id="resCorrect">0</strong>
+                </div>
+                <div class="km-res-card km-res-card--bad">
+                  <span>Incorrect</span>
+                  <strong id="resIncorrect">0</strong>
+                  <small id="resTimeouts">0 timed out</small>
+                </div>
+                <div class="km-res-card">
+                  <span>Accuracy</span>
+                  <strong id="resAccuracy">0%</strong>
+                </div>
+                <div class="km-res-card">
+                  <span>Avg reaction</span>
+                  <strong id="resAvg">—</strong>
+                </div>
+                <div class="km-res-card">
+                  <span>Best combo</span>
+                  <strong id="resCombo">0</strong>
+                </div>
+              </div>
+
+              <div class="km-actions">
+                <button type="button" class="km-btn km-btn--ghost" id="btnChangeSettings">Change setup</button>
+                <button type="button" class="km-btn km-btn--primary" id="btnPlayAgain">
+                  Play Again <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
+                </button>
+                <a class="km-btn km-btn--ghost" href="index.html">Home</a>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- Virtual keyboard: QWERTY layout built from arrays by keymagnet.js -->
+        <section class="km-keyboard-panel" aria-label="Virtual keyboard">
+          <div class="km-keyboard" id="keyboard" aria-hidden="true"></div>
+          <div class="km-legend" aria-hidden="true">
+            <span><i class="km-sw km-sw--target"></i>Target</span>
+            <span><i class="km-sw km-sw--correct"></i>Correct</span>
+            <span><i class="km-sw km-sw--wrong"></i>Wrong</span>
+            <span><i class="km-sw km-sw--set"></i>In practice set</span>
+          </div>
+        </section>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ============================================================
+       FOOTER (shared)
+       ============================================================ -->
+  <footer class="kv-footer">
+    <div class="container">
+      <div
+        class="kv-footer-bottom d-flex flex-column flex-md-row justify-content-between gap-2 text-center text-md-start">
+        <span>&copy; <span id="currentYear">2026</span> KEYVERSE. Web Technologies Lab &middot; Mid Assignment.</span>
+        <a class="kv-footer-link" href="index.html">Back to KEYVERSE home</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS bundle (needed for the mobile navbar) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+  <!-- Shared site behaviour: navbar scroll effect, mobile menu, footer year -->
+  <script src="js/main.js" defer></script>
+  <!-- KeyMagnet game engine -->
+  <script src="js/keymagnet.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,1241 @@
+/* ==========================================================================
+   KEYVERSE – Bubble Rush "Premium Arcade" design system
+   Uses the homepage identity (deep navy, electric blue, cyan, violet) so the
+   game belongs to the same website. Scoped to .br-page.
+
+   Semantic colours
+     Cyan    #22D3EE  correct letters, active states
+     Blue    #2F80FF  primary actions
+     Violet  #8B5CF6  secondary gradient
+     Rose    #FF8A7A  escapes, wrong keys and warnings (the only warm colour)
+
+   Load order: style.css → responsive.css → bubble-rush.css
+   Bubble movement uses the `translate` property (set by JS, or by the
+   floating animation in the preview) so it never clashes with `transform`.
+   ========================================================================== */
+
+
+/* ----------------------------------------------------------------------------
+   1. TOKENS & PAGE
+   ---------------------------------------------------------------------------- */
+.br-page {
+    --bg: #050816;
+    --panel: #0a1028;
+    --surface: rgba(18, 28, 60, 0.55);
+    --surface-strong: rgba(14, 22, 50, 0.85);
+    --line: rgba(140, 170, 255, 0.16);
+    --line-strong: rgba(140, 170, 255, 0.3);
+    --text: #f2f5ff;
+    --muted: #b3bdd9;
+    --blue: #2f80ff;
+    --cyan: #22d3ee;
+    --violet: #8b5cf6;
+    --rose: #ff8a7a;
+    --gradient: linear-gradient(135deg, #2f80ff 0%, #8b5cf6 100%);
+    --shadow: 0 28px 70px rgba(2, 4, 14, 0.55);
+
+    --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-display: 'Space Grotesk', 'Inter', sans-serif;
+
+    min-height: 100vh;
+    color: var(--text);
+    font-family: var(--font-body);
+    background:
+        radial-gradient(900px 560px at 88% -10%, rgba(139, 92, 246, 0.16), transparent 60%),
+        radial-gradient(800px 520px at -8% 18%, rgba(47, 128, 255, 0.14), transparent 60%),
+        radial-gradient(700px 460px at 60% 110%, rgba(34, 211, 238, 0.07), transparent 60%),
+        var(--bg);
+}
+
+.br-main {
+    padding: calc(var(--kv-nav-h, 96px) + 1.25rem) 0 3rem;
+}
+
+.br-container {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+}
+
+.br-page [hidden] {
+    display: none !important;
+}
+
+.br-page kbd {
+    padding: 1px 7px;
+    border-radius: 6px;
+    color: var(--text);
+    background: rgba(242, 245, 255, 0.08);
+    border: 1px solid var(--line-strong);
+    font-family: var(--font-body);
+    font-size: 0.8em;
+}
+
+.br-page :focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+}
+
+/* Difficulty identities: --accent colours the spine, meters and check mark */
+.br-page [data-accent="cyan"] {
+    --accent: #22d3ee;
+    --accent-soft: rgba(34, 211, 238, 0.14);
+}
+
+.br-page [data-accent="blue"] {
+    --accent: #4d97ff;
+    --accent-soft: rgba(47, 128, 255, 0.16);
+}
+
+.br-page [data-accent="violet"] {
+    --accent: #a585ff;
+    --accent-soft: rgba(139, 92, 246, 0.16);
+}
+
+
+/* ----------------------------------------------------------------------------
+   2. SHARED UI: buttons, links, eyebrows
+   ---------------------------------------------------------------------------- */
+.br-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    min-height: 46px;
+    padding: 0.65rem 1.35rem;
+    border-radius: 14px;
+    border: 1px solid transparent;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.br-btn:hover {
+    transform: translateY(-1px);
+}
+
+.br-btn--primary {
+    color: #fff;
+    background: var(--gradient);
+    box-shadow: 0 14px 30px rgba(47, 128, 255, 0.25);
+}
+
+.br-btn--primary:hover {
+    color: #fff;
+    box-shadow: 0 18px 36px rgba(47, 128, 255, 0.35);
+}
+
+.br-btn--ghost {
+    color: var(--text);
+    background: rgba(242, 245, 255, 0.03);
+    border-color: var(--line-strong);
+}
+
+.br-btn--ghost:hover {
+    color: var(--text);
+    background: rgba(242, 245, 255, 0.07);
+}
+
+/* The big Start button: the strongest action on the setup screen */
+.br-btn--start {
+    min-width: 260px;
+    min-height: 56px;
+    padding: 0.8rem 2rem;
+    font-size: 1.05rem;
+    font-family: var(--font-display);
+    color: #fff;
+    background: linear-gradient(135deg, #22d3ee 0%, #2f80ff 55%, #8b5cf6 100%);
+    box-shadow: 0 16px 34px rgba(47, 128, 255, 0.3);
+}
+
+.br-btn--start:hover {
+    color: #fff;
+    box-shadow: 0 20px 40px rgba(47, 128, 255, 0.4);
+}
+
+.br-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    align-self: flex-start;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.br-back:hover {
+    color: var(--text);
+}
+
+.br-kicker {
+    margin: 0;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cyan);
+}
+
+.br-eyebrow {
+    margin: 0 0 0.45rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+}
+
+.br-muted {
+    margin: 0;
+    color: var(--muted);
+}
+
+
+/* ----------------------------------------------------------------------------
+   3. LAUNCH VIEW (setup)
+   Hero (title + floating bubble field) → two setup blocks → start bar.
+   ---------------------------------------------------------------------------- */
+.br-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: 2rem;
+    align-items: center;
+    margin-bottom: 2.4rem;
+}
+
+.br-hero-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.br-game-title {
+    margin: 0.2rem 0 0;
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+    background: linear-gradient(120deg, #ffffff 10%, #a9c9ff 55%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.br-lead {
+    margin: 0;
+    max-width: 52ch;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--muted);
+}
+
+.br-hero-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.4rem;
+    margin: 0.4rem 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.br-hero-facts strong {
+    margin-right: 0.3rem;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--text);
+}
+
+/* Floating bubble field: a large, decorative preview of the arena */
+.br-hero-field {
+    position: relative;
+    height: clamp(300px, 40vw, 380px);
+    border-radius: 30px;
+    overflow: hidden;
+    background:
+        radial-gradient(420px 260px at 50% 0%, rgba(47, 128, 255, 0.22), transparent 70%),
+        radial-gradient(360px 240px at 50% 110%, rgba(139, 92, 246, 0.18), transparent 70%),
+        linear-gradient(180deg, #0c1431 0%, #060a1d 100%);
+    border: 1px solid var(--line-strong);
+    box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.35), var(--shadow);
+}
+
+/* Each preview bubble is placed by JS with left, top, size and tint variables */
+.br-hero-bubble {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--ink, #050816);
+    background: radial-gradient(circle at 32% 26%, rgba(255, 255, 255, 0.7), var(--bubble) 34%, var(--bubble-deep) 100%);
+    box-shadow:
+        inset -6px -10px 16px rgba(0, 0, 0, 0.22),
+        inset 4px 6px 10px rgba(255, 255, 255, 0.2),
+        0 14px 28px rgba(0, 0, 0, 0.35);
+    animation: brFloat var(--dur, 6s) ease-in-out var(--delay, 0s) infinite alternate;
+    user-select: none;
+}
+
+@keyframes brFloat {
+    from {
+        translate: 0 0;
+    }
+
+    to {
+        translate: var(--drift, 0px) -14px;
+    }
+}
+
+/* Setup blocks */
+.br-setup {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+}
+
+.br-block-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    margin-bottom: 1.2rem;
+}
+
+.br-block-head h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2.6vw, 1.7rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.br-block-head p {
+    margin: 0.25rem 0 0;
+    font-size: 0.92rem;
+    color: var(--muted);
+}
+
+.br-step {
+    flex: 0 0 auto;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--gradient);
+    box-shadow: 0 10px 22px rgba(47, 128, 255, 0.25);
+}
+
+/* Difficulty rows: a left spine in the level colour, and three meters */
+.br-diff-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.br-diff {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) auto;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1rem 1.2rem 1rem 1.4rem;
+    text-align: left;
+    font: inherit;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+.br-diff::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 14px;
+    bottom: 14px;
+    width: 4px;
+    border-radius: 0 4px 4px 0;
+    background: var(--accent);
+    opacity: 0.35;
+    transition: opacity 0.25s ease;
+}
+
+.br-diff:hover {
+    transform: translateX(3px);
+    border-color: var(--line-strong);
+}
+
+.br-diff[aria-checked="true"] {
+    border-color: var(--accent);
+    background: linear-gradient(90deg, var(--accent-soft), rgba(10, 16, 40, 0.7) 70%);
+}
+
+.br-diff[aria-checked="true"]::before {
+    opacity: 1;
+}
+
+.br-diff-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.br-diff-level {
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.br-diff-main strong {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.br-diff-tag {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--muted);
+}
+
+.br-meters {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+}
+
+.br-meter {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.br-meter small {
+    font-size: 0.64rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.br-meter b {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.br-meter i {
+    display: block;
+    height: 6px;
+    border-radius: 99px;
+    background: rgba(242, 245, 255, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.br-meter i::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: var(--fill, 50%);
+    border-radius: inherit;
+    background: var(--accent);
+}
+
+.br-diff-check {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 1.5px solid var(--line-strong);
+    font-size: 0.8rem;
+    color: transparent;
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.br-diff[aria-checked="true"] .br-diff-check {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #050816;
+}
+
+/* Scoring rules: one compact strip of four items */
+.br-rules {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.br-rules li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1rem;
+    border-radius: 16px;
+    font-size: 0.86rem;
+    line-height: 1.4;
+    color: var(--muted);
+    background: rgba(242, 245, 255, 0.025);
+    border: 1px dashed var(--line);
+}
+
+.br-pill {
+    align-self: flex-start;
+    min-width: 36px;
+    padding: 0.25rem 0.55rem;
+    border-radius: 9px;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    background: rgba(242, 245, 255, 0.08);
+    text-align: center;
+}
+
+.br-pill--good {
+    color: #050816;
+    background: var(--cyan);
+}
+
+.br-pill--bad {
+    color: #050816;
+    background: var(--rose);
+}
+
+/* Start bar */
+.br-start-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    padding: 1.1rem 1.3rem 1.1rem 1.6rem;
+    border-radius: 26px;
+    background: linear-gradient(120deg, rgba(47, 128, 255, 0.16), rgba(139, 92, 246, 0.14) 60%, rgba(10, 16, 40, 0.8));
+    border: 1px solid var(--line-strong);
+    box-shadow: var(--shadow);
+}
+
+.br-start-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.br-start-info .br-eyebrow {
+    margin: 0;
+}
+
+.br-start-summary {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--text);
+}
+
+
+/* ----------------------------------------------------------------------------
+   4. PLAY VIEW – top bar and toolbar
+   ---------------------------------------------------------------------------- */
+.br-play {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.br-topbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    padding: 0.7rem 0.9rem;
+    border-radius: 20px;
+    background: var(--surface-strong);
+    border: 1px solid var(--line);
+}
+
+.br-topbar-left {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.55rem;
+}
+
+.br-topbar-title {
+    margin-right: 0.4rem;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.br-chip {
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    background: rgba(34, 211, 238, 0.1);
+    border: 1px solid rgba(34, 211, 238, 0.25);
+}
+
+.br-chip--muted {
+    color: var(--text);
+    background: rgba(242, 245, 255, 0.05);
+    border-color: var(--line-strong);
+}
+
+.br-metrics {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.br-metric {
+    min-width: 96px;
+    padding: 0.45rem 0.9rem;
+    text-align: center;
+    border-radius: 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+}
+
+.br-metric span {
+    display: block;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.br-metric strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+}
+
+.br-metric strong.is-warning {
+    color: var(--rose);
+}
+
+.br-metric strong.is-bump {
+    animation: brBump 0.4s ease;
+}
+
+@keyframes brBump {
+    0% {
+        scale: 1;
+    }
+
+    40% {
+        scale: 1.12;
+    }
+
+    100% {
+        scale: 1;
+    }
+}
+
+/* Misses: six pips, one per allowed escape */
+.br-lives {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 0.35rem;
+}
+
+.br-life {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.15);
+    transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.br-life.is-lost {
+    background: var(--rose);
+    box-shadow: 0 0 0 2px rgba(255, 138, 122, 0.2);
+}
+
+.br-toolbar {
+    display: flex;
+    gap: 0.45rem;
+}
+
+.br-icon-btn {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    font-size: 1rem;
+    color: var(--text);
+    background: rgba(242, 245, 255, 0.04);
+    border: 1px solid var(--line);
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, opacity 0.2s ease, color 0.2s ease;
+}
+
+.br-icon-btn:hover:not(:disabled) {
+    background: rgba(242, 245, 255, 0.09);
+    border-color: var(--line-strong);
+}
+
+.br-icon-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.br-icon-btn[aria-pressed="false"] {
+    color: var(--muted);
+}
+
+
+/* ----------------------------------------------------------------------------
+   5. ARENA (the playfield)
+   ---------------------------------------------------------------------------- */
+.br-arena {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    height: clamp(540px, 74svh, 780px);
+    border-radius: 30px;
+    border: 1px solid var(--line-strong);
+    background:
+        radial-gradient(760px 400px at 50% -5%, rgba(47, 128, 255, 0.22), transparent 70%),
+        radial-gradient(600px 380px at 50% 115%, rgba(139, 92, 246, 0.16), transparent 70%),
+        linear-gradient(180deg, #0c1431 0%, #060a1d 100%);
+    box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.35), var(--shadow);
+}
+
+/* Quiet dot grid for depth */
+.br-arena::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: radial-gradient(rgba(242, 245, 255, 0.08) 1px, transparent 1px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(ellipse at center, #000 35%, transparent 80%);
+    pointer-events: none;
+}
+
+.br-arena.is-shaking {
+    animation: brShake 0.4s ease;
+}
+
+@keyframes brShake {
+
+    0%,
+    100% {
+        translate: 0 0;
+    }
+
+    20%,
+    60% {
+        translate: -6px 0;
+    }
+
+    40%,
+    80% {
+        translate: 6px 0;
+    }
+}
+
+.br-bubble-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Playfield bubble: JS sets width, height, font size, --bubble, --bubble-deep,
+   --ink and a per-frame translate3d. The look here matches the hero preview. */
+.br-bubble {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--ink, #050816);
+    background: radial-gradient(circle at 32% 26%, rgba(255, 255, 255, 0.7), var(--bubble) 34%, var(--bubble-deep) 100%);
+    box-shadow:
+        inset -6px -10px 16px rgba(0, 0, 0, 0.22),
+        inset 4px 6px 10px rgba(255, 255, 255, 0.2),
+        0 14px 28px rgba(0, 0, 0, 0.35);
+    will-change: transform;
+    user-select: none;
+}
+
+.br-bubble.is-popping {
+    animation: brPop 0.4s ease-out forwards;
+}
+
+@keyframes brPop {
+    0% {
+        scale: 1;
+        opacity: 1;
+    }
+
+    45% {
+        scale: 1.22;
+        opacity: 1;
+    }
+
+    100% {
+        scale: 0.2;
+        opacity: 0;
+    }
+}
+
+/* Escape line: the rose warning line near the top */
+.br-escape {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 56px;
+    z-index: 2;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255, 138, 122, 0.8) 18%, rgba(255, 138, 122, 0.8) 82%, transparent);
+    pointer-events: none;
+}
+
+.br-escape span {
+    position: absolute;
+    right: 0.8rem;
+    top: -1.4rem;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rose);
+}
+
+.br-escape.is-hit {
+    animation: brEscape 0.5s ease;
+}
+
+@keyframes brEscape {
+
+    0%,
+    100% {
+        opacity: 1;
+        height: 2px;
+    }
+
+    40% {
+        opacity: 1;
+        height: 6px;
+        box-shadow: 0 0 18px rgba(255, 138, 122, 0.6);
+    }
+}
+
+/* Floating feedback: +points, −penalty, missed letter, level banner */
+.br-fx {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.br-hit {
+    position: absolute;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 2.6vmin, 1.8rem);
+    font-weight: 600;
+    white-space: nowrap;
+    transform: translate(-50%, -50%);
+    animation: brHit 1.1s ease-out forwards;
+}
+
+.br-hit.is-good {
+    color: var(--cyan);
+}
+
+.br-hit.is-bad {
+    color: var(--rose);
+}
+
+.br-hit.is-banner {
+    font-size: clamp(1.4rem, 3.2vmin, 2rem);
+    letter-spacing: 0.04em;
+    color: var(--text);
+    text-shadow: 0 2px 16px rgba(47, 128, 255, 0.45);
+}
+
+@keyframes brHit {
+    0% {
+        opacity: 0;
+        translate: 0 8px;
+        scale: 0.8;
+    }
+
+    18% {
+        opacity: 1;
+        translate: 0 0;
+        scale: 1;
+    }
+
+    100% {
+        opacity: 0;
+        translate: 0 -46px;
+        scale: 1;
+    }
+}
+
+/* Overlays (pause, round over, results) sit inside the arena */
+.br-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    padding: 1.2rem;
+    overflow-y: auto;
+    background: rgba(5, 8, 22, 0.82);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Vertical centring without clipping the top of tall cards */
+.br-overlay::before,
+.br-overlay::after {
+    content: "";
+    flex: 1 0 0;
+}
+
+.br-overlay.is-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.br-overlay.is-visible .br-overlay-card {
+    animation: brRise 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes brRise {
+    from {
+        opacity: 0;
+        translate: 0 14px;
+    }
+
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}
+
+.br-overlay-card {
+    width: min(100%, 620px);
+    margin: 0 auto;
+    padding: clamp(1.4rem, 3vw, 2.2rem);
+    text-align: center;
+    border-radius: 26px;
+    background: linear-gradient(170deg, #111b40, #080e26);
+    border: 1px solid var(--line-strong);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55);
+}
+
+.br-overlay-card--wide {
+    width: min(100%, 780px);
+}
+
+.br-overlay-card h2 {
+    margin: 0 0 0.6rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3.6vw, 2.1rem);
+    font-weight: 600;
+}
+
+.br-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 1.6rem;
+}
+
+.br-over-score {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin: 1.2rem 0 0;
+}
+
+.br-over-score span {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.br-over-score strong {
+    font-family: var(--font-display);
+    font-size: 2.6rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Results */
+.br-score-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 1.4rem 0 1.2rem;
+    padding: 1.3rem;
+    border-radius: 22px;
+    background: radial-gradient(420px 200px at 50% 0%, rgba(47, 128, 255, 0.22), transparent 70%), rgba(18, 28, 60, 0.5);
+    border: 1px solid var(--line);
+}
+
+.br-score-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+#resScore {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 8vw, 4.6rem);
+    font-weight: 600;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    background: linear-gradient(120deg, #ffffff 20%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.br-res-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.6rem;
+    text-align: left;
+}
+
+.br-res-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.85rem 0.8rem;
+    border-radius: 16px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+}
+
+.br-res-card span {
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.br-res-card strong {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.br-res-card--good strong {
+    color: var(--cyan);
+}
+
+.br-res-card--bad strong {
+    color: var(--rose);
+}
+
+.br-formula {
+    margin: 1rem 0 0;
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+
+/* ----------------------------------------------------------------------------
+   6. RESPONSIVE
+   Wide: hero side by side, difficulty rows full width, rules in four columns.
+   Tablet: hero stacks, rules in two columns.
+   Phone: everything single column, Start bar stacks, no horizontal scroll.
+   ---------------------------------------------------------------------------- */
+@media (max-width: 991.98px) {
+    .br-hero {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .br-hero-field {
+        height: 300px;
+    }
+
+    .br-rules {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .br-diff {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .br-meters {
+        grid-column: 1 / -1;
+        order: 3;
+    }
+
+    .br-res-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .br-arena {
+        height: clamp(560px, 80svh, 700px);
+    }
+}
+
+@media (max-width: 767.98px) {
+    .br-container {
+        padding: 0 0.9rem;
+    }
+
+    .br-topbar {
+        padding: 0.6rem;
+    }
+
+    .br-metrics {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .br-metric {
+        flex: 1;
+        min-width: 0;
+        padding: 0.4rem 0.5rem;
+    }
+
+    .br-metric strong {
+        font-size: 1.25rem;
+    }
+
+    .br-toolbar {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .br-arena {
+        height: clamp(500px, 78svh, 620px);
+    }
+}
+
+@media (max-width: 575.98px) {
+    .br-rules {
+        grid-template-columns: 1fr;
+    }
+
+    .br-meters {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.5rem;
+    }
+
+    .br-meter b {
+        font-size: 0.9rem;
+    }
+
+    .br-diff {
+        padding: 1rem;
+    }
+
+    .br-start-bar {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .br-start-info {
+        align-items: center;
+    }
+
+    .br-btn--start {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .br-res-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .br-actions .br-btn {
+        flex: 1 1 100%;
+    }
+
+    .br-hero-field {
+        height: 260px;
+    }
+
+    .br-escape span {
+        font-size: 0.6rem;
+    }
+}
+
+@media (hover: none) {
+
+    .br-diff:hover,
+    .br-btn:hover {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .br-hero-bubble,
+    .br-bubble,
+    .br-hit,
+    .br-arena,
+    .br-escape {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

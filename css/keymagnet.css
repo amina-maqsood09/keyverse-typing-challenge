@@ -1,0 +1,1741 @@
+/* ==========================================================================
+   KEYVERSE – KeyMagnet "Premium Arcade" design system
+   Uses the homepage identity (deep navy, electric blue, cyan, violet) so the
+   game belongs to the same website. Scoped to .km-page.
+
+   Semantic colours
+     Cyan    #22D3EE  correct answers, active states, primary highlights
+     Blue    #2F80FF  primary actions and gradients
+     Violet  #8B5CF6  secondary gradient, hard difficulty
+     Rose    #FF8A7A  wrong answers and warnings (the only warm colour)
+
+   Load order: style.css → responsive.css → keymagnet.css
+   Animations use the individual `scale`, `rotate` and `translate` properties,
+   so they never fight over the same `transform`.
+   ========================================================================== */
+
+
+/* ----------------------------------------------------------------------------
+   1. TOKENS & PAGE
+   ---------------------------------------------------------------------------- */
+.km-page {
+    --bg: #050816;
+    --panel: #0a1028;
+    --surface: rgba(18, 28, 60, 0.55);
+    --surface-strong: rgba(14, 22, 50, 0.85);
+    --line: rgba(140, 170, 255, 0.16);
+    --line-strong: rgba(140, 170, 255, 0.3);
+    --text: #f2f5ff;
+    --muted: #b3bdd9;
+    --blue: #2f80ff;
+    --cyan: #22d3ee;
+    --violet: #8b5cf6;
+    --rose: #ff8a7a;
+    --gradient: linear-gradient(135deg, #2f80ff 0%, #8b5cf6 100%);
+    --radius: 24px;
+    --shadow: 0 28px 70px rgba(2, 4, 14, 0.55);
+
+    --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-display: 'Space Grotesk', 'Inter', sans-serif;
+
+    min-height: 100vh;
+    color: var(--text);
+    font-family: var(--font-body);
+    background:
+        radial-gradient(900px 560px at 88% -10%, rgba(139, 92, 246, 0.16), transparent 60%),
+        radial-gradient(800px 520px at -8% 18%, rgba(47, 128, 255, 0.14), transparent 60%),
+        radial-gradient(700px 460px at 60% 110%, rgba(34, 211, 238, 0.07), transparent 60%),
+        var(--bg);
+}
+
+.km-main {
+    padding: calc(var(--kv-nav-h, 96px) + 1.25rem) 0 3rem;
+}
+
+.km-container {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+}
+
+.km-page [hidden] {
+    display: none !important;
+}
+
+.km-page kbd {
+    padding: 1px 7px;
+    border-radius: 6px;
+    color: var(--text);
+    background: rgba(242, 245, 255, 0.08);
+    border: 1px solid var(--line-strong);
+    font-family: var(--font-body);
+    font-size: 0.8em;
+}
+
+/* Accent identities. --accent colours a tile's keys, border and meters. */
+.km-page [data-accent="cyan"] {
+    --accent: #22d3ee;
+    --accent-soft: rgba(34, 211, 238, 0.14);
+}
+
+.km-page [data-accent="blue"] {
+    --accent: #4d97ff;
+    --accent-soft: rgba(47, 128, 255, 0.16);
+}
+
+.km-page [data-accent="violet"] {
+    --accent: #a585ff;
+    --accent-soft: rgba(139, 92, 246, 0.16);
+}
+
+.km-page [data-accent="ice"] {
+    --accent: #e6ecff;
+    --accent-soft: rgba(230, 236, 255, 0.10);
+}
+
+.km-page :focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+}
+
+
+/* ----------------------------------------------------------------------------
+   2. SHARED UI: buttons, links, eyebrows
+   ---------------------------------------------------------------------------- */
+.km-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    min-height: 46px;
+    padding: 0.65rem 1.35rem;
+    border-radius: 14px;
+    border: 1px solid transparent;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.km-btn:hover {
+    transform: translateY(-1px);
+}
+
+.km-btn--primary {
+    color: #fff;
+    background: var(--gradient);
+    box-shadow: 0 14px 30px rgba(47, 128, 255, 0.25);
+}
+
+.km-btn--primary:hover {
+    color: #fff;
+    box-shadow: 0 18px 36px rgba(47, 128, 255, 0.35);
+}
+
+.km-btn--ghost {
+    color: var(--text);
+    background: rgba(242, 245, 255, 0.03);
+    border-color: var(--line-strong);
+}
+
+.km-btn--ghost:hover {
+    color: var(--text);
+    background: rgba(242, 245, 255, 0.07);
+}
+
+/* The big Start button: taller, wider, the single strongest action on the page */
+.km-btn--start {
+    min-width: 260px;
+    min-height: 56px;
+    padding: 0.8rem 2rem;
+    font-size: 1.05rem;
+    font-family: var(--font-display);
+    letter-spacing: 0.01em;
+}
+
+.km-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    align-self: flex-start;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.km-back:hover {
+    color: var(--text);
+}
+
+.km-kicker {
+    margin: 0;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cyan);
+}
+
+.km-eyebrow {
+    margin: 0 0 0.45rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+}
+
+.km-muted {
+    margin: 0;
+    color: var(--muted);
+}
+
+
+/* ----------------------------------------------------------------------------
+   3. LAUNCH VIEW (setup)
+   Hero (title + live preview) → two setup blocks → how-to strip → start bar.
+   ---------------------------------------------------------------------------- */
+.km-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 2rem;
+    align-items: center;
+    margin-bottom: 2.4rem;
+}
+
+.km-hero-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.km-game-title {
+    margin: 0.2rem 0 0;
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+    background: linear-gradient(120deg, #ffffff 10%, #a9c9ff 55%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.km-lead {
+    margin: 0;
+    max-width: 52ch;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--muted);
+}
+
+.km-hero-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.4rem;
+    margin: 0.4rem 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.km-hero-facts strong {
+    margin-right: 0.3rem;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--text);
+}
+
+/* Live preview: the largest visual on the setup screen */
+.km-preview {
+    position: relative;
+    padding: 1.5rem;
+    border-radius: 30px;
+    background: linear-gradient(165deg, rgba(20, 32, 70, 0.9), rgba(8, 12, 32, 0.95));
+    border: 1px solid var(--line-strong);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.km-preview::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(420px 260px at 50% 40%, var(--accent-soft, rgba(47, 128, 255, 0.14)), transparent 70%);
+    pointer-events: none;
+}
+
+.km-preview>* {
+    position: relative;
+}
+
+.km-preview-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+#previewCount {
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    color: var(--accent, var(--cyan));
+    background: var(--accent-soft, rgba(34, 211, 238, 0.12));
+    letter-spacing: 0.08em;
+}
+
+.km-preview-target {
+    width: clamp(150px, 22vw, 190px);
+    height: clamp(150px, 22vw, 190px);
+    margin: 1.2rem auto 0.8rem;
+    display: grid;
+    place-items: center;
+    border-radius: 34px;
+    background: linear-gradient(160deg, #1b2c63, #0b1233);
+    border: 1px solid rgba(140, 170, 255, 0.28);
+    box-shadow:
+        inset 0 1px 0 rgba(242, 245, 255, 0.16),
+        inset 0 -10px 24px rgba(0, 0, 0, 0.35),
+        0 20px 44px rgba(0, 0, 0, 0.45);
+}
+
+.km-preview-target span {
+    font-family: var(--font-display);
+    font-size: clamp(4.4rem, 9vw, 5.4rem);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--text);
+}
+
+.km-preview-target span.is-swap {
+    animation: kmSwap 0.4s ease;
+}
+
+@keyframes kmSwap {
+    from {
+        opacity: 0;
+        scale: 0.8;
+    }
+
+    to {
+        opacity: 1;
+        scale: 1;
+    }
+}
+
+.km-preview-caption {
+    margin: 0 0 1.1rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+/* Mini keyboard used by the preview and by each set tile */
+.km-mini-kb {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.km-mini-row {
+    display: flex;
+    gap: 5px;
+}
+
+.km-mini-key {
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 7px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: rgba(179, 189, 217, 0.4);
+    background: rgba(242, 245, 255, 0.04);
+    border: 1px solid rgba(140, 170, 255, 0.08);
+    transition: background 0.25s ease, color 0.25s ease;
+}
+
+.km-mini-key.is-set {
+    color: #050816;
+    background: var(--accent, var(--cyan));
+    border-color: transparent;
+    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Setup blocks */
+.km-setup {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+}
+
+.km-block-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    margin-bottom: 1.2rem;
+}
+
+.km-block-head h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2.6vw, 1.7rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.km-block-head p {
+    margin: 0.25rem 0 0;
+    font-size: 0.92rem;
+    color: var(--muted);
+}
+
+.km-step {
+    flex: 0 0 auto;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--gradient);
+    box-shadow: 0 10px 22px rgba(47, 128, 255, 0.25);
+}
+
+/* Set tiles: a 2×2 grid, each with a large keyboard illustration */
+.km-set-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.km-set {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 1.3rem;
+    text-align: left;
+    font: inherit;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    cursor: pointer;
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+.km-set:hover {
+    transform: translateY(-2px);
+    border-color: var(--line-strong);
+}
+
+.km-set[aria-checked="true"] {
+    border-color: var(--accent);
+    background: linear-gradient(170deg, var(--accent-soft), rgba(10, 16, 40, 0.7));
+    box-shadow: 0 0 0 1px var(--accent) inset;
+}
+
+.km-set-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.km-set-top strong {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.km-set-check {
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 1.5px solid var(--line-strong);
+    font-size: 0.75rem;
+    color: transparent;
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.km-set[aria-checked="true"] .km-set-check {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #050816;
+}
+
+.km-set-tag {
+    font-size: 0.87rem;
+    line-height: 1.45;
+    color: var(--muted);
+}
+
+/* The keyboard illustration: bigger keys than the preview */
+.km-set-kb {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin: 0.3rem 0 0.1rem;
+    padding: 0.9rem;
+    border-radius: 16px;
+    background: rgba(5, 8, 22, 0.55);
+    border: 1px solid var(--line);
+}
+
+.km-set-kb .km-mini-row {
+    gap: 6px;
+}
+
+.km-set-kb .km-mini-row:nth-child(2) {
+    padding-left: 14px;
+}
+
+.km-set-kb .km-mini-row:nth-child(3) {
+    padding-left: 34px;
+}
+
+.km-set-kb .km-mini-key {
+    width: clamp(24px, 3.4vw, 30px);
+    height: clamp(24px, 3.4vw, 30px);
+    font-size: 0.78rem;
+}
+
+.km-set-count {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.km-set[aria-checked="true"] .km-set-count {
+    color: var(--accent);
+}
+
+/* Difficulty rows: full-width selectors with meters, not identical cards */
+.km-diff-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.km-diff {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) auto;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1rem 1.2rem 1rem 1.4rem;
+    text-align: left;
+    font: inherit;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+/* Coloured spine on the left edge */
+.km-diff::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 14px;
+    bottom: 14px;
+    width: 4px;
+    border-radius: 0 4px 4px 0;
+    background: var(--accent);
+    opacity: 0.35;
+    transition: opacity 0.25s ease;
+}
+
+.km-diff:hover {
+    transform: translateX(3px);
+    border-color: var(--line-strong);
+}
+
+.km-diff[aria-checked="true"] {
+    border-color: var(--accent);
+    background: linear-gradient(90deg, var(--accent-soft), rgba(10, 16, 40, 0.7) 70%);
+}
+
+.km-diff[aria-checked="true"]::before {
+    opacity: 1;
+}
+
+.km-diff-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.km-diff-level {
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.km-diff-main strong {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.km-diff-tag {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--muted);
+}
+
+.km-meters {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+}
+
+.km-meter {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.km-meter small {
+    font-size: 0.64rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.km-meter b {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.km-meter i {
+    display: block;
+    height: 6px;
+    border-radius: 99px;
+    background: rgba(242, 245, 255, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.km-meter i::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: var(--fill, 50%);
+    border-radius: inherit;
+    background: var(--accent);
+}
+
+.km-diff-check {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 1.5px solid var(--line-strong);
+    font-size: 0.8rem;
+    color: transparent;
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.km-diff[aria-checked="true"] .km-diff-check {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #050816;
+}
+
+/* How to play: one horizontal strip */
+.km-howto {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin: 2.4rem 0 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: none;
+}
+
+.km-howto li {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.85rem 1rem;
+    border-radius: 16px;
+    font-size: 0.88rem;
+    line-height: 1.35;
+    color: var(--muted);
+    background: rgba(242, 245, 255, 0.025);
+    border: 1px dashed var(--line);
+}
+
+.km-howto li span {
+    flex: 0 0 auto;
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--cyan);
+    background: rgba(34, 211, 238, 0.12);
+}
+
+/* Start bar: full width, summary left, big button right */
+.km-start-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    padding: 1.1rem 1.3rem 1.1rem 1.6rem;
+    border-radius: 26px;
+    background: linear-gradient(120deg, rgba(47, 128, 255, 0.16), rgba(139, 92, 246, 0.14) 60%, rgba(10, 16, 40, 0.8));
+    border: 1px solid var(--line-strong);
+    box-shadow: var(--shadow);
+}
+
+.km-start-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.km-start-info .km-eyebrow {
+    margin: 0;
+}
+
+.km-start-summary {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--text);
+}
+
+
+/* ----------------------------------------------------------------------------
+   4. PLAY VIEW – top bar, progress, toolbar
+   ---------------------------------------------------------------------------- */
+.km-play {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.km-topbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    padding: 0.7rem 0.9rem;
+    border-radius: 20px;
+    background: var(--surface-strong);
+    border: 1px solid var(--line);
+}
+
+.km-topbar-left {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.55rem;
+}
+
+.km-topbar-title {
+    margin-right: 0.4rem;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.km-chip {
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    background: rgba(34, 211, 238, 0.1);
+    border: 1px solid rgba(34, 211, 238, 0.25);
+}
+
+.km-chip--muted {
+    color: var(--text);
+    background: rgba(242, 245, 255, 0.05);
+    border-color: var(--line-strong);
+}
+
+.km-metrics {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.km-metric {
+    min-width: 112px;
+    padding: 0.45rem 0.9rem;
+    text-align: center;
+    border-radius: 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+}
+
+.km-metric span {
+    display: block;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.km-metric strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+}
+
+.km-metric strong.is-warning {
+    color: var(--rose);
+}
+
+.km-metric strong.is-bump {
+    animation: kmBump 0.4s ease;
+}
+
+.km-toolbar {
+    display: flex;
+    gap: 0.45rem;
+}
+
+.km-icon-btn {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    font-size: 1rem;
+    color: var(--text);
+    background: rgba(242, 245, 255, 0.04);
+    border: 1px solid var(--line);
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, opacity 0.2s ease, color 0.2s ease;
+}
+
+.km-icon-btn:hover:not(:disabled) {
+    background: rgba(242, 245, 255, 0.09);
+    border-color: var(--line-strong);
+}
+
+.km-icon-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.km-icon-btn[aria-pressed="false"] {
+    color: var(--muted);
+}
+
+.km-progress-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0 0.2rem;
+}
+
+.km-progress-row>span {
+    min-width: 4.5rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.km-progress {
+    flex: 1;
+    height: 6px;
+    border-radius: 99px;
+    background: rgba(242, 245, 255, 0.08);
+    overflow: hidden;
+}
+
+.km-progress-fill {
+    height: 100%;
+    width: 100%;
+    transform-origin: left center;
+    transform: scaleX(0);
+    background: var(--gradient);
+    transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+
+/* ----------------------------------------------------------------------------
+   5. ARENA (target stage)
+   ---------------------------------------------------------------------------- */
+.km-arena {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: clamp(520px, 70svh, 680px);
+    border-radius: 30px;
+    border: 1px solid var(--line-strong);
+    background:
+        radial-gradient(760px 400px at 50% -5%, rgba(47, 128, 255, 0.22), transparent 70%),
+        radial-gradient(600px 380px at 50% 115%, rgba(139, 92, 246, 0.16), transparent 70%),
+        linear-gradient(180deg, #0c1431 0%, #060a1d 100%);
+    box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.35), var(--shadow);
+}
+
+/* Quiet dot grid for depth */
+.km-arena::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: radial-gradient(rgba(242, 245, 255, 0.08) 1px, transparent 1px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(ellipse at center, #000 35%, transparent 80%);
+    pointer-events: none;
+}
+
+.km-arena.is-correct-flash {
+    animation: kmFlashGood 0.5s ease;
+}
+
+.km-arena.is-wrong-flash {
+    animation: kmFlashBad 0.5s ease, kmShake 0.4s ease;
+}
+
+@keyframes kmFlashGood {
+    0% {
+        box-shadow: inset 0 0 0 rgba(34, 211, 238, 0), inset 0 0 90px rgba(0, 0, 0, 0.35), var(--shadow);
+    }
+
+    30% {
+        box-shadow: inset 0 0 130px rgba(34, 211, 238, 0.14), inset 0 0 90px rgba(0, 0, 0, 0.3), var(--shadow);
+    }
+
+    100% {
+        box-shadow: inset 0 0 0 rgba(34, 211, 238, 0), inset 0 0 90px rgba(0, 0, 0, 0.35), var(--shadow);
+    }
+}
+
+@keyframes kmFlashBad {
+    0% {
+        box-shadow: inset 0 0 0 rgba(255, 138, 122, 0), inset 0 0 90px rgba(0, 0, 0, 0.35), var(--shadow);
+    }
+
+    30% {
+        box-shadow: inset 0 0 130px rgba(255, 138, 122, 0.16), inset 0 0 90px rgba(0, 0, 0, 0.3), var(--shadow);
+    }
+
+    100% {
+        box-shadow: inset 0 0 0 rgba(255, 138, 122, 0), inset 0 0 90px rgba(0, 0, 0, 0.35), var(--shadow);
+    }
+}
+
+@keyframes kmShake {
+
+    0%,
+    100% {
+        translate: 0 0;
+    }
+
+    20%,
+    60% {
+        translate: -6px 0;
+    }
+
+    40%,
+    80% {
+        translate: 6px 0;
+    }
+}
+
+/* Centre: label and the large target keycap */
+.km-target-wrap {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.8rem, 2.4vmin, 1.4rem);
+    transition: opacity 0.3s ease;
+}
+
+.km-target-wrap.is-waiting {
+    opacity: 0.5;
+}
+
+.km-target-label {
+    margin: 0;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.km-target-key {
+    position: relative;
+    width: clamp(160px, 26vmin, 250px);
+    aspect-ratio: 1 / 1;
+    display: grid;
+    place-items: center;
+    border-radius: 38px;
+    font-family: var(--font-display);
+    font-size: clamp(5.4rem, 20vmin, 11rem);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--text);
+    background: linear-gradient(170deg, #22336e 0%, #0d1638 100%);
+    border: 1px solid rgba(140, 170, 255, 0.3);
+    box-shadow:
+        inset 0 1px 0 rgba(242, 245, 255, 0.18),
+        inset 0 -10px 24px rgba(0, 0, 0, 0.35),
+        0 26px 50px rgba(0, 0, 0, 0.5);
+    user-select: none;
+}
+
+/* A soft cyan rim: the only decoration around the keycap */
+.km-target-key::before {
+    content: "";
+    position: absolute;
+    inset: -12px;
+    border-radius: 48px;
+    border: 1px solid rgba(34, 211, 238, 0.22);
+    pointer-events: none;
+}
+
+.km-target-key.is-enter {
+    animation: kmEnter 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes kmEnter {
+    from {
+        opacity: 0;
+        scale: 0.82;
+        translate: 0 12px;
+    }
+
+    to {
+        opacity: 1;
+        scale: 1;
+        translate: 0 0;
+    }
+}
+
+/* Countdown bar along the bottom edge */
+.km-window {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 4px;
+    z-index: 2;
+    background: rgba(242, 245, 255, 0.06);
+}
+
+.km-window-bar {
+    width: 100%;
+    height: 100%;
+    transform-origin: left center;
+    transform: scaleX(1);
+    background: linear-gradient(90deg, #2f80ff, #22d3ee);
+}
+
+.km-window-bar.is-low {
+    background: var(--rose);
+}
+
+/* Streak badge (top right) */
+.km-combo {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.8rem;
+    border-radius: 14px;
+    color: var(--text);
+    background: rgba(5, 8, 22, 0.75);
+    border: 1px solid var(--line);
+    font-family: var(--font-display);
+}
+
+.km-combo-label {
+    font-family: var(--font-body);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+#hudCombo {
+    font-size: 1.3rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.km-combo-mult {
+    padding: 0.12rem 0.45rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: var(--cyan);
+    background: rgba(34, 211, 238, 0.14);
+}
+
+.km-combo.is-hot {
+    border-color: rgba(34, 211, 238, 0.45);
+}
+
+.km-combo.is-hot .km-combo-mult {
+    color: #050816;
+    background: var(--cyan);
+}
+
+.km-combo.is-bump {
+    animation: kmBump 0.4s ease;
+}
+
+.km-combo.is-milestone {
+    animation: kmBump 0.6s ease;
+    border-color: var(--cyan);
+}
+
+@keyframes kmBump {
+    0% {
+        scale: 1;
+    }
+
+    40% {
+        scale: 1.12;
+    }
+
+    100% {
+        scale: 1;
+    }
+}
+
+/* Floating feedback text and the expanding ring */
+.km-fx {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.km-hit {
+    position: absolute;
+    left: 50%;
+    top: 33%;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 4.5vmin, 2.4rem);
+    font-weight: 600;
+    white-space: nowrap;
+    animation: kmHit 0.9s ease-out forwards;
+}
+
+.km-hit.is-good {
+    color: var(--cyan);
+}
+
+.km-hit.is-bad {
+    color: var(--rose);
+}
+
+@keyframes kmHit {
+    0% {
+        transform: translate(-50%, -30%) scale(0.7);
+        opacity: 0;
+    }
+
+    18% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -150%) scale(1);
+        opacity: 0;
+    }
+}
+
+.km-burst {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(56vmin, 420px);
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    border: 2px solid rgba(34, 211, 238, 0.6);
+    animation: kmBurst 0.7s ease-out forwards;
+}
+
+.km-burst.is-bad {
+    border-color: rgba(255, 138, 122, 0.7);
+}
+
+@keyframes kmBurst {
+    0% {
+        transform: translate(-50%, -50%) scale(0.2);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* Overlays (pause and results) inside the arena */
+.km-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    padding: 1.2rem;
+    overflow-y: auto;
+    background: rgba(5, 8, 22, 0.82);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Vertical centring without clipping the top of tall cards */
+.km-overlay::before,
+.km-overlay::after {
+    content: "";
+    flex: 1 0 0;
+}
+
+.km-overlay.is-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.km-overlay.is-visible .km-overlay-card {
+    animation: kmRise 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes kmRise {
+    from {
+        opacity: 0;
+        translate: 0 14px;
+    }
+
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}
+
+.km-overlay-card {
+    width: min(100%, 620px);
+    margin: 0 auto;
+    padding: clamp(1.4rem, 3vw, 2.2rem);
+    text-align: center;
+    border-radius: 26px;
+    background: linear-gradient(170deg, #111b40, #080e26);
+    border: 1px solid var(--line-strong);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55);
+}
+
+.km-overlay-card--wide {
+    width: min(100%, 780px);
+}
+
+.km-overlay-card h2 {
+    margin: 0 0 0.6rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3.6vw, 2.1rem);
+    font-weight: 600;
+}
+
+.km-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 1.6rem;
+}
+
+/* Results */
+.km-score-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 1.4rem 0 1.2rem;
+    padding: 1.3rem;
+    border-radius: 22px;
+    background: radial-gradient(420px 200px at 50% 0%, rgba(47, 128, 255, 0.22), transparent 70%), rgba(18, 28, 60, 0.5);
+    border: 1px solid var(--line);
+}
+
+.km-score-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+#resScore {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 8vw, 4.6rem);
+    font-weight: 600;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    background: linear-gradient(120deg, #ffffff 20%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.km-score-set {
+    font-size: 0.88rem;
+    color: var(--cyan);
+}
+
+.km-res-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.6rem;
+    text-align: left;
+}
+
+.km-res-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.85rem 0.8rem;
+    border-radius: 16px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+}
+
+.km-res-card span {
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.km-res-card strong {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.km-res-card small {
+    font-size: 0.7rem;
+    color: var(--muted);
+}
+
+.km-res-card--good strong {
+    color: var(--cyan);
+}
+
+.km-res-card--bad strong {
+    color: var(--rose);
+}
+
+
+/* ----------------------------------------------------------------------------
+   6. VIRTUAL KEYBOARD (QWERTY)
+   ---------------------------------------------------------------------------- */
+.km-keyboard-panel {
+    padding: 1.1rem clamp(0.6rem, 2vw, 1.3rem) 0.9rem;
+    border-radius: 24px;
+    background: var(--surface-strong);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+}
+
+.km-keyboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(0.3rem, 0.8vw, 0.55rem);
+}
+
+.km-kb-row {
+    display: flex;
+    justify-content: center;
+    gap: clamp(0.25rem, 0.6vw, 0.5rem);
+}
+
+.km-kb-key {
+    width: clamp(26px, 6.8vw, 60px);
+    aspect-ratio: 1 / 1.02;
+    display: grid;
+    place-items: center;
+    border-radius: clamp(8px, 1.1vw, 13px);
+    font-family: var(--font-display);
+    font-size: clamp(0.8rem, 2.2vw, 1.15rem);
+    font-weight: 600;
+    color: rgba(242, 245, 255, 0.35);
+    background: rgba(5, 8, 22, 0.7);
+    border: 1px solid rgba(140, 170, 255, 0.08);
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.4);
+    user-select: none;
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease,
+        scale 0.25s ease, opacity 0.3s ease, box-shadow 0.25s ease;
+}
+
+.km-kb-key:not(.is-in-set) {
+    opacity: 0.32;
+}
+
+.km-kb-key.is-in-set {
+    color: var(--text);
+    background: rgba(18, 28, 60, 0.9);
+    border-color: rgba(140, 170, 255, 0.2);
+}
+
+/* The target: a bright cyan-to-blue keycap, raised, with a soft halo */
+.km-kb-key.is-target {
+    z-index: 1;
+    scale: 1.12;
+    opacity: 1;
+    color: #050816;
+    background: linear-gradient(135deg, #22d3ee, #2f80ff);
+    border-color: transparent;
+    box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.2), 0 5px 0 rgba(0, 0, 0, 0.4);
+}
+
+.km-kb-key.is-correct {
+    animation: kmKeyGood 0.5s ease;
+}
+
+.km-kb-key.is-wrong {
+    animation: kmKeyBad 0.5s ease;
+}
+
+@keyframes kmKeyGood {
+    0% {
+        background: #22d3ee;
+        color: #050816;
+        border-color: #22d3ee;
+    }
+
+    100% {
+        background: rgba(18, 28, 60, 0.9);
+        color: var(--text);
+        border-color: rgba(140, 170, 255, 0.2);
+    }
+}
+
+@keyframes kmKeyBad {
+    0% {
+        background: var(--rose);
+        color: #050816;
+        border-color: var(--rose);
+    }
+
+    100% {
+        background: rgba(18, 28, 60, 0.9);
+        color: var(--text);
+        border-color: rgba(140, 170, 255, 0.2);
+    }
+}
+
+.km-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.2rem;
+    margin-top: 0.9rem;
+    font-size: 0.74rem;
+    color: var(--muted);
+}
+
+.km-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.km-sw {
+    width: 11px;
+    height: 11px;
+    display: inline-block;
+    border-radius: 3px;
+}
+
+.km-sw--target {
+    background: linear-gradient(135deg, #22d3ee, #2f80ff);
+}
+
+.km-sw--correct {
+    background: rgba(34, 211, 238, 0.5);
+}
+
+.km-sw--wrong {
+    background: var(--rose);
+}
+
+.km-sw--set {
+    background: rgba(18, 28, 60, 0.9);
+    border: 1px solid rgba(140, 170, 255, 0.3);
+}
+
+
+/* ----------------------------------------------------------------------------
+   7. RESPONSIVE
+   Wide: hero side by side, set tiles 2×2.
+   Tablet: hero stacks, preview becomes a wide panel.
+   Phone: single column everywhere, Start bar stacks, no horizontal scroll.
+   ---------------------------------------------------------------------------- */
+@media (max-width: 991.98px) {
+    .km-hero {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .km-preview {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        align-items: center;
+        column-gap: 1.2rem;
+    }
+
+    .km-preview-top {
+        grid-column: 1 / -1;
+    }
+
+    .km-preview-target {
+        margin: 0.4rem auto 0.4rem;
+    }
+
+    .km-preview-caption {
+        margin: 0;
+    }
+
+    .km-mini-kb {
+        grid-column: 1 / -1;
+    }
+
+    .km-arena {
+        min-height: 600px;
+    }
+
+    .km-res-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .km-howto {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .km-diff {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .km-meters {
+        grid-column: 1 / -1;
+        order: 3;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .km-container {
+        padding: 0 0.9rem;
+    }
+
+    .km-set-grid {
+        gap: 0.75rem;
+    }
+
+    .km-set {
+        padding: 1rem;
+    }
+
+    .km-set-kb .km-mini-key {
+        width: 22px;
+        height: 22px;
+        font-size: 0.7rem;
+    }
+
+    .km-set-kb .km-mini-row:nth-child(2) {
+        padding-left: 11px;
+    }
+
+    .km-set-kb .km-mini-row:nth-child(3) {
+        padding-left: 26px;
+    }
+
+    .km-topbar {
+        padding: 0.6rem;
+    }
+
+    .km-metrics {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .km-metric {
+        flex: 1;
+        min-width: 0;
+        padding: 0.4rem 0.5rem;
+    }
+
+    .km-metric strong {
+        font-size: 1.25rem;
+    }
+
+    .km-toolbar {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .km-arena {
+        min-height: 540px;
+    }
+
+    .km-combo {
+        top: 0.6rem;
+        right: 0.6rem;
+        padding: 0.35rem 0.6rem;
+    }
+
+    .km-combo-label {
+        display: none;
+    }
+
+    .km-start-bar {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .km-set-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .km-set-kb .km-mini-key {
+        width: 26px;
+        height: 26px;
+    }
+
+    .km-set-kb .km-mini-row:nth-child(2) {
+        padding-left: 14px;
+    }
+
+    .km-set-kb .km-mini-row:nth-child(3) {
+        padding-left: 34px;
+    }
+
+    .km-meters {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.5rem;
+    }
+
+    .km-meter b {
+        font-size: 0.9rem;
+    }
+
+    .km-diff {
+        padding: 1rem;
+    }
+
+    .km-howto {
+        grid-template-columns: 1fr;
+    }
+
+    .km-start-bar {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .km-start-info {
+        align-items: center;
+    }
+
+    .km-btn--start {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .km-res-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .km-actions .km-btn {
+        flex: 1 1 100%;
+    }
+
+    .km-legend {
+        gap: 0.6rem 0.9rem;
+        font-size: 0.68rem;
+    }
+
+    .km-arena {
+        min-height: 500px;
+    }
+}
+
+@media (hover: none) {
+
+    .km-set:hover,
+    .km-diff:hover,
+    .km-btn:hover {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .km-arena,
+    .km-arena *,
+    .km-kb-key,
+    .km-burst,
+    .km-hit {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

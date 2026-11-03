@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="KEYVERSE – Master Your Keyboard. Beat Your Limits. A premium keyboard training gaming platform with Bubble Rush and KeyMagnet.">
+    <title>KEYVERSE – Master Your Keyboard. Beat Your Limits.</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap 5.3 + Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Custom CSS (order matters: style first, responsive last) -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/responsive.css" rel="stylesheet">
+</head>
+
+<body id="top">
+
+    <!-- ============================================================
+       1. NAVIGATION BAR
+       ============================================================ -->
+    <nav class="navbar navbar-expand-lg fixed-top kv-navbar" id="mainNav" aria-label="Main navigation">
+        <div class="container">
+            <a class="navbar-brand kv-brand" href="#top" aria-label="KEYVERSE home">
+                <span class="kv-logo" aria-hidden="true"><i class="bi bi-keyboard"></i></span>
+                <span>KEY<span class="kv-accent">VERSE</span></span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+                aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+                    <li class="nav-item"><a class="nav-link kv-nav-link active" href="#top">Home</a></li>
+                    <li class="nav-item"><a class="nav-link kv-nav-link" href="#modes">Game Modes</a></li>
+                    <li class="nav-item"><a class="nav-link kv-nav-link" href="#how-to-play">How to Play</a></li>
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <a class="btn kv-btn-primary btn-sm px-4" href="#modes">Start Playing</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="flying-comet" aria-hidden="true">
+                <span class="comet-tail"></span>
+                <span class="comet-head"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- ============================================================
+         2. HERO SECTION
+         ============================================================ -->
+        <header class="kv-hero" id="home">
+            <!-- Decorative background glows -->
+            <div class="kv-hero-orb kv-orb-1" aria-hidden="true"></div>
+            <div class="kv-hero-orb kv-orb-2" aria-hidden="true"></div>
+            <div class="kv-hero-orb kv-orb-3" aria-hidden="true"></div>
+
+            <div class="container position-relative">
+                <div class="row align-items-center gy-5">
+
+                    <!-- Hero text -->
+                    <div class="col-lg-6 text-center text-lg-start" data-reveal>
+                        <span class="kv-eyebrow">
+                            <i class="bi bi-lightning-charge-fill" aria-hidden="true"></i>
+                            Next-gen keyboard training
+                        </span>
+
+                        <h1 class="kv-hero-title">
+                            Master Your Keyboard.
+                            <span class="kv-gradient-text">Beat Your Limits.</span>
+                        </h1>
+
+                        <p class="kv-lead mx-auto mx-lg-0">
+                            KEYVERSE is a keyboard training gaming platform that turns precision
+                            and speed into a fast, addictive challenge. Sharpen letter recognition,
+                            build muscle memory and push your personal limits, one key at a time.
+                        </p>
+
+                        <div
+                            class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
+                            <a href="#modes" class="btn kv-btn-primary btn-lg px-4">
+                                Start Playing <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i>
+                            </a>
+                            <a href="#how-to-play" class="btn kv-btn-ghost btn-lg px-4">
+                                <i class="bi bi-play-circle me-1" aria-hidden="true"></i> How to Play
+                            </a>
+                        </div>
+
+                        <ul class="kv-hero-stats list-unstyled">
+                            <li><strong>2</strong><span>Game Modes</span></li>
+                            <li><strong>3</strong><span>Device Layouts</span></li>
+                            <li><strong>0</strong><span>Installs Needed</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- Hero visual: interactive glass keyboard panel -->
+                    <div class="col-lg-6" data-reveal style="--reveal-delay: .15s">
+                        <div class="kv-visual" aria-hidden="true">
+
+                            <!-- Floating bubbles -->
+                            <span class="kv-bubble" style="--x: 8%;  --s: 34px; --d: 0s"></span>
+                            <span class="kv-bubble" style="--x: 28%; --s: 18px; --d: 2.5s"></span>
+                            <span class="kv-bubble" style="--x: 55%; --s: 46px; --d: 1s"></span>
+                            <span class="kv-bubble" style="--x: 80%; --s: 22px; --d: 4s"></span>
+                            <span class="kv-bubble" style="--x: 92%; --s: 30px; --d: 6s"></span>
+
+                            <div class="kv-glass kv-visual-panel">
+                                <!-- Keys light up in a looping "KEYVERSE" sequence; hover or tap any key to press it -->
+                                <div class="kv-keyboard" id="heroKeyboard">
+                                    <div class="kv-keyrow">
+                                        <span class="kv-keycap" data-key="Q" style="--i:0">Q</span>
+                                        <span class="kv-keycap" data-key="W" style="--i:1">W</span>
+                                        <span class="kv-keycap" data-key="E" style="--i:2">E</span>
+                                        <span class="kv-keycap" data-key="R" style="--i:3">R</span>
+                                        <span class="kv-keycap" data-key="T" style="--i:4">T</span>
+                                        <span class="kv-keycap" data-key="Y" style="--i:5">Y</span>
+                                        <span class="kv-keycap" data-key="U" style="--i:6">U</span>
+                                        <span class="kv-keycap" data-key="I" style="--i:7">I</span>
+                                        <span class="kv-keycap" data-key="O" style="--i:8">O</span>
+                                        <span class="kv-keycap" data-key="P" style="--i:9">P</span>
+                                    </div>
+                                    <div class="kv-keyrow">
+                                        <span class="kv-keycap" data-key="A" style="--i:2">A</span>
+                                        <span class="kv-keycap" data-key="S" style="--i:3">S</span>
+                                        <span class="kv-keycap" data-key="D" style="--i:4">D</span>
+                                        <span class="kv-keycap" data-key="F" style="--i:5">F</span>
+                                        <span class="kv-keycap kv-keycap--active" data-key="G" style="--i:6">G</span>
+                                        <span class="kv-keycap" data-key="H" style="--i:7">H</span>
+                                        <span class="kv-keycap" data-key="J" style="--i:8">J</span>
+                                        <span class="kv-keycap" data-key="K" style="--i:9">K</span>
+                                        <span class="kv-keycap" data-key="L" style="--i:10">L</span>
+                                    </div>
+                                    <div class="kv-keyrow">
+                                        <span class="kv-keycap" data-key="Z" style="--i:4">Z</span>
+                                        <span class="kv-keycap" data-key="X" style="--i:5">X</span>
+                                        <span class="kv-keycap" data-key="C" style="--i:6">C</span>
+                                        <span class="kv-keycap" data-key="V" style="--i:7">V</span>
+                                        <span class="kv-keycap" data-key="B" style="--i:8">B</span>
+                                        <span class="kv-keycap" data-key="N" style="--i:9">N</span>
+                                        <span class="kv-keycap" data-key="M" style="--i:10">M</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="kv-chip kv-chip--streak">
+                                <i class="bi bi-fire"></i> Streak x12
+                            </div>
+                            <div class="kv-chip kv-chip--accuracy">
+                                <i class="bi bi-bullseye"></i> Accuracy 98%
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+
+        <!-- ============================================================
+         3. GAME MODES
+         ============================================================ -->
+        <section class="kv-section" id="modes">
+            <div class="container">
+                <div class="kv-section-head text-center" data-reveal>
+                    <span class="kv-eyebrow">Game Modes</span>
+                    <h2 class="kv-section-title">Two modes. One goal: total keyboard mastery.</h2>
+                    <p class="kv-section-sub">Choose the arena that matches the skill you want to sharpen.</p>
+                </div>
+
+                <div class="row g-4 justify-content-center">
+
+                    <!-- Bubble Rush -->
+                    <div class="col-lg-6" data-reveal>
+                        <article class="kv-glass kv-mode-card">
+                            <div class="kv-mode-icon" aria-hidden="true">
+                                <!-- Custom inline SVG: a large letter bubble with two smaller companions -->
+                                <svg viewBox="0 0 48 48" fill="none" focusable="false">
+                                    <circle cx="24" cy="27" r="14" stroke="currentColor" stroke-width="2.2"
+                                        fill="currentColor" fill-opacity=".14" />
+                                    <circle cx="11" cy="12" r="5.5" stroke="currentColor" stroke-width="2"
+                                        fill="currentColor" fill-opacity=".1" />
+                                    <circle cx="38" cy="9" r="3.5" stroke="currentColor" stroke-width="1.8"
+                                        fill="currentColor" fill-opacity=".1" />
+                                    <path d="M15 21a10 10 0 0 1 6-5" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" opacity=".75" />
+                                    <text x="24" y="32.5" text-anchor="middle" font-family="Space Grotesk, sans-serif"
+                                        font-weight="700" font-size="15" fill="currentColor">A</text>
+                                </svg>
+                            </div>
+                            <span class="kv-badge-tag mt-4">Letter Recognition</span>
+                            <h3 class="kv-mode-title">Bubble Rush</h3>
+                            <p class="kv-card-text">
+                                Bubbles rise carrying letters inside them. Type the matching key before
+                                they escape the screen. Speed up, stay sharp and build instant recognition.
+                            </p>
+                            <ul class="kv-mode-list">
+                                <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Recognize letters at
+                                    increasing speed</li>
+                                <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Difficulty rises with
+                                    every level</li>
+                                <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Lives system that rewards
+                                    focus</li>
+                            </ul>
+                            <a href="bubble-rush.html" class="btn kv-btn-primary">
+                                Play Bubble Rush <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i>
+                            </a>
+                        </article>
+                    </div>
+
+                    <!-- KeyMagnet -->
+                    <div class="col-lg-6" data-reveal style="--reveal-delay: .15s">
+                        <article class="kv-glass kv-mode-card kv-mode-card--violet">
+                            <div class="kv-mode-icon" aria-hidden="true"><i class="bi bi-magnet"></i></div>
+                            <span class="kv-badge-tag mt-4">Keyboard Precision</span>
+                            <h3 class="kv-mode-title">KeyMagnet</h3>
+                            <p class="kv-card-text">
+                                Target keys pull you across the keyboard. Hit them with pinpoint accuracy
+                                to build combos and train your finger placement.
+                            </p>
+                            <ul class="kv-mode-list">
+                                <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Train finger placement
+                                    and reach</li>
+                                <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Combo multipliers for
+                                    clean hits</li>
+                                <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Precision scoring on
+                                    every keystroke</li>
+                            </ul>
+                            <a href="keymagnet.html" class="btn kv-btn-primary">
+                                Play KeyMagnet <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i>
+                            </a>
+                        </article>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+         4. HOW TO PLAY
+         ============================================================ -->
+        <section class="kv-section kv-section--alt" id="how-to-play">
+            <div class="container">
+                <div class="kv-section-head text-center" data-reveal>
+                    <span class="kv-eyebrow">How to Play</span>
+                    <h2 class="kv-section-title">Four steps from first key to personal best.</h2>
+                    <p class="kv-section-sub">No setup, no learning curve. Just open a mode and start typing.</p>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-sm-6 col-lg-3" data-reveal>
+                        <div class="kv-glass kv-step">
+                            <div class="kv-step-num" aria-hidden="true">01</div>
+                            <div class="kv-step-icon" aria-hidden="true"><i class="bi bi-controller"></i></div>
+                            <h3>Choose your arena</h3>
+                            <p>Pick Bubble Rush to sharpen letter recognition, or KeyMagnet to refine precision.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3" data-reveal style="--reveal-delay: .1s">
+                        <div class="kv-glass kv-step">
+                            <div class="kv-step-num" aria-hidden="true">02</div>
+                            <div class="kv-step-icon" aria-hidden="true"><i class="bi bi-eye"></i></div>
+                            <h3>Read the signal</h3>
+                            <p>Watch the bubble letters or glowing target keys. Your next keystroke is all that matters.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3" data-reveal style="--reveal-delay: .2s">
+                        <div class="kv-glass kv-step">
+                            <div class="kv-step-num" aria-hidden="true">03</div>
+                            <div class="kv-step-icon" aria-hidden="true"><i class="bi bi-keyboard"></i></div>
+                            <h3>Strike the key</h3>
+                            <p>Press the matching key on your physical keyboard. Clean hits build combos and score.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3" data-reveal style="--reveal-delay: .3s">
+                        <div class="kv-glass kv-step">
+                            <div class="kv-step-num" aria-hidden="true">04</div>
+                            <div class="kv-step-icon" aria-hidden="true"><i class="bi bi-fire"></i></div>
+                            <h3>Beat your limit</h3>
+                            <p>Chain streaks, climb levels and beat your personal best. Every session makes you faster.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============================================================
+       6. FOOTER
+       ============================================================ -->
+    <footer class="kv-footer">
+        <div class="container">
+            <div class="row gy-4">
+
+                <div class="col-lg-4">
+                    <a class="kv-brand text-decoration-none" href="#top" aria-label="Back to top">
+                        <span class="kv-logo" aria-hidden="true"><i class="bi bi-keyboard"></i></span>
+                        <span>KEY<span class="kv-accent">VERSE</span></span>
+                    </a>
+                    <p class="kv-footer-text mt-3 mb-0 pe-lg-4">
+                        KEYVERSE is a keyboard training gaming platform built to make typing skill
+                        feel like play. Master your keyboard. Beat your limits.
+                    </p>
+                </div>
+
+                <div class="col-6 col-lg-2 offset-lg-1">
+                    <h3 class="kv-footer-title">Platform</h3>
+                    <ul class="list-unstyled mb-0">
+                        <li><a class="kv-footer-link" href="#top">Home</a></li>
+                        <li><a class="kv-footer-link" href="#modes">Game Modes</a></li>
+                        <li><a class="kv-footer-link" href="#how-to-play">How to Play</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-lg-2">
+                    <h3 class="kv-footer-title">Games</h3>
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a class="kv-footer-link" href="bubble-rush.html">Bubble Rush</a>
+                        </li>
+                        <li>
+                            <a class="kv-footer-link" href="keymagnet.html">KeyMagnet</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3">
+                    <h3 class="kv-footer-title">Connect</h3>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="kv-social" data-coming-soon="Social links" aria-label="GitHub">
+                            <i class="bi bi-github"></i>
+                        </button>
+                        <button type="button" class="kv-social" data-coming-soon="Social links"
+                            aria-label="X (Twitter)">
+                            <i class="bi bi-twitter-x"></i>
+                        </button>
+                        <button type="button" class="kv-social" data-coming-soon="Social links" aria-label="LinkedIn">
+                            <i class="bi bi-linkedin"></i>
+                        </button>
+                        <button type="button" class="kv-social" data-coming-soon="Social links" aria-label="YouTube">
+                            <i class="bi bi-youtube"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div
+                class="kv-footer-bottom d-flex flex-column flex-md-row justify-content-between gap-2 text-center text-md-start">
+                <span>&copy; <span id="currentYear">2026</span> KEYVERSE. Web Technologies Lab &middot; Mid
+                    Assignment.</span>
+                <span>Crafted with HTML5, CSS3, Bootstrap 5.3 &amp; Vanilla JavaScript</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast used by "coming soon" buttons (so every button gives feedback) -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="kvToast" class="toast kv-toast align-items-center" role="status" aria-live="polite" aria-atomic="true"
+            data-bs-delay="2800">
+            <div class="d-flex">
+                <div class="toast-body d-flex align-items-center gap-2">
+                    <i class="bi bi-stars" aria-hidden="true"></i>
+                    <span id="kvToastMessage"></span>
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+    <!-- Custom JavaScript -->
+    <script src="js/main.js" defer></script>
+</body>
+
+</html>

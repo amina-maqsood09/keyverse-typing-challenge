@@ -1,0 +1,999 @@
+/* ==========================================================================
+   KEYVERSE – Main Stylesheet
+   Visual identity: deep navy / near-black, electric blue, violet, cyan.
+   Custom CSS on top of Bootstrap 5.3 (Bootstrap handles the grid & utilities).
+   ========================================================================== */
+
+
+/* ----------------------------------------------------------------------------
+   1. DESIGN TOKENS (change colours/fonts/sizes here, everywhere updates)
+   ---------------------------------------------------------------------------- */
+:root {
+    --kv-bg: #050816;
+    --kv-navy: #0a1028;
+    --kv-navy-2: #0f1838;
+    --kv-border: rgba(140, 170, 255, 0.16);
+    --kv-text: #f2f5ff;
+    /* headings and primary text */
+    --kv-muted: #b3bdd9;
+    /* secondary text – high contrast on navy */
+    --kv-muted-strong: #cdd5ee;
+    /* card body copy – strongest secondary tone */
+
+    --kv-blue: #2f80ff;
+    --kv-cyan: #22d3ee;
+    --kv-violet: #8b5cf6;
+
+    --kv-grad: linear-gradient(135deg, #2f80ff 0%, #8b5cf6 100%);
+    --kv-grad-text: linear-gradient(90deg, #67e8f9 0%, #60a5fa 45%, #a78bfa 100%);
+
+    --kv-font-head: 'Space Grotesk', system-ui, sans-serif;
+    --kv-font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+    --kv-radius: 20px;
+    --kv-nav-h: 96px;
+    /* approximate fixed-navbar height incl. breathing room */
+}
+
+
+/* ----------------------------------------------------------------------------
+   2. BASE
+   ---------------------------------------------------------------------------- */
+html {
+    scroll-behavior: smooth;
+    /* Every in-page anchor lands BELOW the fixed navbar, not underneath it */
+    scroll-padding-top: var(--kv-nav-h);
+}
+
+body {
+    font-family: var(--kv-font-body);
+    color: var(--kv-text);
+    line-height: 1.65;
+    overflow-x: hidden;
+    min-height: 100vh;
+    background-color: var(--kv-bg);
+    background-image:
+        radial-gradient(1100px 600px at 8% -10%, rgba(47, 128, 255, 0.18), transparent 60%),
+        radial-gradient(900px 500px at 100% 25%, rgba(139, 92, 246, 0.14), transparent 60%),
+        linear-gradient(180deg, #050816 0%, #070b1c 100%);
+    background-attachment: fixed;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--kv-font-head);
+    letter-spacing: -0.01em;
+}
+
+a {
+    color: inherit;
+}
+
+/* Belt and braces: sections and headed blocks also keep clear of the navbar */
+section[id],
+header[id] {
+    scroll-margin-top: var(--kv-nav-h);
+}
+
+::selection {
+    background: rgba(47, 128, 255, 0.45);
+    color: #fff;
+}
+
+/* Clear, accessible keyboard focus */
+:focus-visible {
+    outline: 2px solid var(--kv-cyan);
+    outline-offset: 3px;
+    border-radius: 8px;
+}
+
+
+/* ----------------------------------------------------------------------------
+   3. NAVIGATION BAR (glass effect appears on scroll)
+   ---------------------------------------------------------------------------- */
+.kv-navbar {
+    padding: 1.1rem 0;
+    border-bottom: 1px solid transparent;
+    transition: background-color 0.35s ease, padding 0.35s ease,
+        box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.kv-navbar.is-scrolled {
+    padding: 0.7rem 0;
+    background: rgba(5, 8, 22, 0.78);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border-bottom-color: var(--kv-border);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.kv-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--kv-font-head);
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: 0.04em;
+    color: var(--kv-text) !important;
+    text-decoration: none;
+}
+
+.kv-logo {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    font-size: 1.25rem;
+    color: #fff;
+    background: var(--kv-grad);
+    box-shadow: 0 0 22px rgba(47, 128, 255, 0.45);
+}
+
+.kv-accent {
+    background: var(--kv-grad-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.kv-nav-link {
+    position: relative;
+    padding: 0.5rem 0.9rem !important;
+    color: var(--kv-muted) !important;
+    font-weight: 500;
+    transition: color 0.25s ease;
+}
+
+/* Animated gradient underline */
+.kv-nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0.9rem;
+    right: 0.9rem;
+    bottom: 0.1rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--kv-grad);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.kv-nav-link:hover,
+.kv-nav-link.active {
+    color: var(--kv-text) !important;
+}
+
+.kv-nav-link:hover::after,
+.kv-nav-link.active::after {
+    transform: scaleX(1);
+}
+
+.navbar-toggler {
+    border: 1px solid var(--kv-border);
+    border-radius: 12px;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+
+/* ----------------------------------------------------------------------------
+   4. BUTTONS
+   ---------------------------------------------------------------------------- */
+.kv-btn-primary {
+    background: var(--kv-grad);
+    color: #fff;
+    border: 0;
+    border-radius: 999px;
+    padding: 0.7rem 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    box-shadow: 0 10px 30px rgba(47, 128, 255, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+}
+
+.kv-btn-primary:hover,
+.kv-btn-primary:focus-visible {
+    color: #fff;
+    transform: translateY(-3px);
+    filter: brightness(1.08);
+    box-shadow: 0 16px 40px rgba(139, 92, 246, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.kv-btn-primary:active {
+    transform: translateY(-1px);
+}
+
+.kv-btn-ghost {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--kv-text);
+    border: 1px solid var(--kv-border);
+    border-radius: 999px;
+    padding: 0.7rem 1.6rem;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease,
+        border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.kv-btn-ghost:hover,
+.kv-btn-ghost:focus-visible {
+    color: #fff;
+    border-color: rgba(34, 211, 238, 0.6);
+    background: rgba(34, 211, 238, 0.08);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(34, 211, 238, 0.18);
+}
+
+
+/* ----------------------------------------------------------------------------
+   5. HERO SECTION
+   ---------------------------------------------------------------------------- */
+.kv-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 9rem 0 5rem;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* Subtle grid texture that fades out toward the edges */
+.kv-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+        linear-gradient(rgba(120, 150, 255, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(120, 150, 255, 0.07) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+    mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+}
+
+/* Blurred colour orbs */
+.kv-hero-orb {
+    position: absolute;
+    z-index: -1;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.55;
+    animation: kvDrift 14s ease-in-out infinite alternate;
+}
+
+.kv-orb-1 {
+    width: 420px;
+    height: 420px;
+    background: var(--kv-blue);
+    top: -120px;
+    left: -120px;
+}
+
+.kv-orb-2 {
+    width: 380px;
+    height: 380px;
+    background: var(--kv-violet);
+    bottom: -100px;
+    right: -80px;
+    animation-delay: -5s;
+}
+
+.kv-orb-3 {
+    width: 260px;
+    height: 260px;
+    background: var(--kv-cyan);
+    top: 35%;
+    left: 45%;
+    opacity: 0.25;
+    animation-delay: -9s;
+}
+
+@keyframes kvDrift {
+    from {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    to {
+        transform: translate3d(40px, -30px, 0) scale(1.08);
+    }
+}
+
+.kv-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    background: rgba(34, 211, 238, 0.08);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    color: var(--kv-cyan);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.kv-hero-title {
+    font-size: clamp(2.6rem, 5.2vw, 4.6rem);
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    margin: 1.25rem 0;
+}
+
+.kv-gradient-text {
+    background: var(--kv-grad-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.kv-lead {
+    max-width: 34rem;
+    margin-bottom: 2.25rem;
+    font-size: 1.15rem;
+    color: var(--kv-muted);
+}
+
+.kv-hero-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.25rem;
+    margin: 3rem 0 0;
+    padding: 0;
+}
+
+.kv-hero-stats strong {
+    display: block;
+    font-family: var(--kv-font-head);
+    font-size: 1.7rem;
+    line-height: 1.1;
+    background: var(--kv-grad-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.kv-hero-stats span {
+    color: var(--kv-muted);
+    font-size: 0.9rem;
+}
+
+
+/* ----------------------------------------------------------------------------
+   6. HERO VISUAL (interactive glass keyboard + bubbles + chips)
+   ---------------------------------------------------------------------------- */
+.kv-visual {
+    position: relative;
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.kv-visual-panel {
+    position: relative;
+    z-index: 1;
+    padding: 2.25rem 1.5rem 2rem;
+    border-radius: 28px;
+    container-type: inline-size;
+    /* lets keycaps size themselves to the panel */
+}
+
+.kv-keyboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.kv-keyrow {
+    display: flex;
+    justify-content: center;
+    gap: min(0.6rem, 1.5cqi);
+}
+
+.kv-keycap {
+    width: 3rem;
+    /* fallback for older browsers */
+    width: min(3.25rem, 8.5cqi);
+    aspect-ratio: 1 / 1;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    font-family: var(--kv-font-head);
+    font-weight: 700;
+    font-size: min(1.1rem, 3.4cqi);
+    color: #d5dcff;
+    background: linear-gradient(165deg, #1d2a5e 0%, #0e1636 100%);
+    border: 1px solid rgba(140, 170, 255, 0.24);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        0 6px 0 #060a1d,
+        0 14px 24px rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    animation: kvKeyFloat 4.5s ease-in-out infinite;
+    animation-delay: calc(var(--i, 0) * 0.15s);
+    /* `translate` is separate from `transform`, so hover/press offsets
+     do not fight the floating keyframe animation above */
+    transition: translate 0.25s ease, border-color 0.3s ease,
+        color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover: the key lifts and picks up a cyan edge glow */
+.kv-keycap:hover {
+    translate: 0 -4px;
+    color: #fff;
+    border-color: rgba(34, 211, 238, 0.6);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        0 10px 0 #060a1d,
+        0 18px 30px rgba(0, 0, 0, 0.5),
+        0 0 24px rgba(34, 211, 238, 0.35);
+}
+
+/* The default "pressed" key */
+.kv-keycap--active {
+    color: #fff;
+    background: var(--kv-grad);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35),
+        0 6px 0 #3b2a8f,
+        0 0 30px rgba(47, 128, 255, 0.7);
+}
+
+/* Lit by the looping sequence (and briefly on tap) */
+.kv-keycap.is-lit {
+    color: #fff;
+    translate: 0 -2px;
+    background: linear-gradient(165deg, #2f80ff 0%, #22d3ee 100%);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        0 6px 0 #1b4fb0,
+        0 0 32px rgba(34, 211, 238, 0.7);
+}
+
+/* Pressed: the key sinks into the board */
+.kv-keycap.is-pressed {
+    translate: 0 3px;
+    background: linear-gradient(165deg, #8b5cf6 0%, #2f80ff 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        0 2px 0 #3b2a8f,
+        0 0 26px rgba(139, 92, 246, 0.7);
+}
+
+@keyframes kvKeyFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+/* Floating status chips */
+.kv-chip {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    border-radius: 14px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--kv-text);
+    background: rgba(10, 16, 40, 0.8);
+    border: 1px solid var(--kv-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    animation: kvBob 6s ease-in-out infinite;
+}
+
+.kv-chip i {
+    color: var(--kv-cyan);
+}
+
+.kv-chip--streak {
+    top: 0;
+    right: 0;
+}
+
+.kv-chip--accuracy {
+    bottom: 0;
+    left: 0;
+    animation-delay: -3s;
+}
+
+@keyframes kvBob {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Rising bubbles behind the panel */
+.kv-bubble {
+    position: absolute;
+    z-index: 0;
+    bottom: -5%;
+    left: var(--x);
+    width: var(--s);
+    height: var(--s);
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%,
+            rgba(255, 255, 255, 0.7),
+            rgba(34, 211, 238, 0.15) 40%,
+            rgba(139, 92, 246, 0.25) 75%);
+    border: 1px solid rgba(34, 211, 238, 0.35);
+    box-shadow: 0 0 18px rgba(34, 211, 238, 0.25);
+    pointer-events: none;
+    animation: kvRise 9s linear infinite;
+    animation-delay: var(--d, 0s);
+    opacity: 0;
+}
+
+@keyframes kvRise {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.8;
+    }
+
+    90% {
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: translateY(-460px);
+        opacity: 0;
+    }
+}
+
+
+/* ----------------------------------------------------------------------------
+   7. SHARED SECTION STYLES
+   ---------------------------------------------------------------------------- */
+.kv-section {
+    position: relative;
+    padding: 6.5rem 0;
+}
+
+.kv-section--alt {
+    background: linear-gradient(180deg, transparent, rgba(47, 128, 255, 0.05), transparent);
+}
+
+.kv-section-head {
+    max-width: 680px;
+    margin: 0 auto 3.5rem;
+}
+
+.kv-section-title {
+    font-size: clamp(2rem, 3.6vw, 2.9rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 1rem 0 0.9rem;
+}
+
+.kv-section-sub {
+    color: var(--kv-muted);
+    font-size: 1.05rem;
+    margin: 0;
+}
+
+/* Reusable glass card with hover lift + glow */
+.kv-glass {
+    position: relative;
+    height: 100%;
+    border-radius: var(--kv-radius);
+    background: linear-gradient(150deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.015));
+    border: 1px solid var(--kv-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+        border-color 0.45s ease, box-shadow 0.45s ease;
+}
+
+.kv-glass:hover {
+    transform: translateY(-6px);
+    border-color: rgba(34, 211, 238, 0.45);
+    box-shadow: 0 26px 60px rgba(0, 0, 0, 0.45),
+        0 0 40px rgba(47, 128, 255, 0.18);
+}
+
+/* Shared body-copy colour for cards (replaces Bootstrap's grey text-secondary) */
+.kv-card-text {
+    color: var(--kv-muted-strong);
+    margin: 0;
+}
+
+
+/* ----------------------------------------------------------------------------
+   8. GAME MODE CARDS
+   ---------------------------------------------------------------------------- */
+.kv-mode-card {
+    --accent: var(--kv-cyan);
+    --accent-rgb: 34, 211, 238;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2.5rem;
+    overflow: hidden;
+}
+
+.kv-mode-card--violet {
+    --accent: var(--kv-violet);
+    --accent-rgb: 139, 92, 246;
+}
+
+/* Lift + border glow in the card's own accent colour */
+.kv-mode-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(var(--accent-rgb), 0.6);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(var(--accent-rgb), 0.15),
+        0 0 60px -14px rgba(var(--accent-rgb), 0.55);
+}
+
+/* Coloured glow in the top-right corner */
+.kv-mode-card::before {
+    content: "";
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent), transparent 70%);
+    opacity: 0.22;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.45s ease, transform 0.6s ease;
+}
+
+/* Cursor-following spotlight (enabled on fine pointers by main.js) */
+.kv-mode-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 0%),
+            rgba(var(--accent-rgb), 0.16), transparent 62%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.45s ease;
+}
+
+.kv-mode-card:hover::before {
+    opacity: 0.42;
+    transform: scale(1.15);
+}
+
+.kv-mode-card:hover::after {
+    opacity: 1;
+}
+
+/* Content sits above the decorative layers */
+.kv-mode-card>* {
+    position: relative;
+    z-index: 1;
+}
+
+.kv-mode-icon {
+    width: 80px;
+    height: 80px;
+    display: grid;
+    place-items: center;
+    border-radius: 22px;
+    font-size: 2.1rem;
+    color: var(--accent);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 0 30px -6px var(--accent),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.45s ease;
+}
+
+.kv-mode-icon svg {
+    width: 46px;
+    height: 46px;
+    display: block;
+}
+
+.kv-mode-card:hover .kv-mode-icon {
+    transform: rotate(-6deg) scale(1.07);
+    box-shadow: 0 0 40px -4px var(--accent),
+        inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.kv-badge-tag {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.kv-mode-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--kv-text);
+    margin: 1.25rem 0 0.5rem;
+}
+
+.kv-mode-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 2rem;
+}
+
+.kv-mode-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 0.4rem 0;
+    color: var(--kv-muted-strong);
+}
+
+.kv-mode-list i {
+    color: var(--accent);
+    margin-top: 0.3rem;
+    flex-shrink: 0;
+}
+
+
+/* ----------------------------------------------------------------------------
+   9. HOW TO PLAY STEPS
+   ---------------------------------------------------------------------------- */
+.kv-step {
+    padding: 2rem 1.75rem;
+}
+
+.kv-step-num {
+    font-family: var(--kv-font-head);
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 1rem;
+    background: linear-gradient(180deg, rgba(125, 211, 252, 0.95), rgba(139, 92, 246, 0.15));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+
+/* ----------------------------------------------------------------------------
+   10. ICON BADGES – How to Play step badges
+   ---------------------------------------------------------------------------- */
+.kv-step-icon {
+    width: 56px;
+    height: 56px;
+    display: grid;
+    place-items: center;
+    border-radius: 16px;
+    font-size: 1.5rem;
+    color: var(--kv-cyan);
+    background: linear-gradient(145deg, rgba(47, 128, 255, 0.22), rgba(139, 92, 246, 0.12));
+    border: 1px solid rgba(47, 128, 255, 0.3);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 0.45s ease, color 0.45s ease;
+}
+
+.kv-step-icon {
+    margin-bottom: 1.25rem;
+}
+
+/* When the parent card is hovered, its badge brightens and lifts slightly */
+.kv-glass:hover .kv-step-icon {
+    transform: scale(1.06);
+    color: #fff;
+    box-shadow: 0 0 28px rgba(47, 128, 255, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.kv-step h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--kv-text);
+    margin-bottom: 0.5rem;
+}
+
+.kv-step p {
+    margin: 0;
+    color: var(--kv-muted-strong);
+    font-size: 0.97rem;
+}
+
+
+/* ----------------------------------------------------------------------------
+   11. FOOTER
+   ---------------------------------------------------------------------------- */
+.kv-footer {
+    padding: 4.5rem 0 2rem;
+    border-top: 1px solid var(--kv-border);
+    background: rgba(3, 5, 14, 0.6);
+}
+
+.kv-footer-text {
+    color: var(--kv-muted);
+}
+
+.kv-footer-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--kv-text);
+    margin-bottom: 1.1rem;
+}
+
+.kv-footer-link {
+    display: inline-block;
+    padding: 0.3rem 0;
+    color: var(--kv-muted);
+    text-decoration: none;
+    font-size: 0.97rem;
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.kv-footer-link:hover,
+.kv-footer-link:focus-visible {
+    color: var(--kv-cyan);
+    transform: translateX(4px);
+}
+
+.kv-social {
+    width: 44px;
+    height: 44px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 14px;
+    font-size: 1.1rem;
+    color: var(--kv-text);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--kv-border);
+    transition: transform 0.3s ease, color 0.3s ease,
+        border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.kv-social:hover {
+    color: #fff;
+    transform: translateY(-3px);
+    border-color: rgba(34, 211, 238, 0.6);
+    box-shadow: 0 10px 24px rgba(34, 211, 238, 0.2);
+}
+
+.kv-footer-bottom {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(140, 170, 255, 0.1);
+    color: var(--kv-muted);
+    font-size: 0.9rem;
+}
+
+
+/* ----------------------------------------------------------------------------
+   14. TOAST (feedback for "coming soon" buttons)
+   ---------------------------------------------------------------------------- */
+.kv-toast.toast {
+    background: rgba(10, 16, 40, 0.92);
+    border: 1px solid rgba(34, 211, 238, 0.35);
+    border-radius: 16px;
+    color: var(--kv-text);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+.kv-toast .toast-body i {
+    color: var(--kv-cyan);
+}
+
+.kv-toast .btn-close {
+    filter: invert(1) grayscale(1) brightness(1.8);
+}
+
+
+/* ----------------------------------------------------------------------------
+   15. SCROLL REVEAL ANIMATION
+   JavaScript adds .kv-reveal to [data-reveal] elements, then .is-visible
+   when they scroll into view. Without JS, content simply stays visible.
+   ---------------------------------------------------------------------------- */
+.kv-reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.8s ease,
+        transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition-delay: var(--reveal-delay, 0s);
+}
+
+.kv-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+
+/* ----------------------------------------------------------------------------
+   16. ACCESSIBILITY: respect users who prefer less motion
+   ---------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .kv-reveal {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Flying Comet Animation */
+.flying-comet {
+    position: absolute;
+    top: 25%;
+    left: -100px;
+    width: 90px;
+    height: 3px;
+    pointer-events: none;
+    z-index: 0;
+    animation: cometFly 7s linear infinite;
+}
+
+.comet-tail {
+    position: absolute;
+    width: 85px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #6366f1, #67e8f9);
+    filter: blur(2px);
+}
+
+.comet-head {
+    position: absolute;
+    right: 0;
+    top: -4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #a5f3fc;
+    box-shadow: 0 0 12px #67e8f9, 0 0 25px #6366f1;
+}
