@@ -1727,6 +1727,27 @@
     }
 }
 
+/* Touch screens (pointer: coarse): the keyboard panel doubles as the on-screen
+   keyboard. Keys are sized to fit a 320px phone in one row and give a press response. */
+@media (pointer: coarse) {
+    .km-kb-row {
+        gap: 3px;
+    }
+
+    .km-kb-key {
+        width: min(30px, calc((100vw - 4.5rem - 27px) / 10));
+        height: 40px;
+        font-size: 0.95rem;
+        cursor: pointer;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .km-kb-key:active {
+        scale: 0.92;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
 
     .km-arena,

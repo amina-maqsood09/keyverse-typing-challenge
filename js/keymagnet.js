@@ -925,6 +925,16 @@ const KeyMagnet = (() => {
     }
 
     function bindEvents() {
+        // Touch screens: a tap on a key of the on-screen keyboard sends the same
+        // keydown a physical key sends, so onKeyDown → handleKeyPress does the work.
+        // The pointer check means mouse clicks on desktop do nothing new.
+        dom.keyboard.addEventListener('click', (event) => {
+            const key = event.target.closest('.km-kb-key');
+            if (key && window.matchMedia('(pointer: coarse)').matches) {
+                document.dispatchEvent(new KeyboardEvent('keydown', { key: key.dataset.key }));
+            }
+        });
+
         // Launch screen
         dom.btnStart.addEventListener('click', startGame);
         dom.modeGrid.addEventListener('click', onModeClick);

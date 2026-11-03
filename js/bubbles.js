@@ -890,10 +890,33 @@ const BubbleRush = (() => {
        INIT – runs once when the script loads (it is loaded with `defer`,
        so the DOM is ready by then)
        ------------------------------------------------------------------------ */
+    /* ------------------------------------------------------------------------
+       TOUCH PAD – on-screen letters for phones and tablets. CSS shows the pad
+       only on touch screens. A tap sends the same keydown a physical key sends,
+       so onKeyDown → handleLetter does all the work. Nothing is duplicated.
+       ------------------------------------------------------------------------ */
+    const TOUCH_ROWS = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
+
+    function buildTouchPad() {
+        dom.touchPad = document.getElementById('touchPad');
+        if (!dom.touchPad) return;
+
+        dom.touchPad.innerHTML = TOUCH_ROWS.map((row) => `
+      <div class="br-touch-row">
+        ${[...row].map((letter) => `<button type="button" class="br-touch-key" data-key="${letter}" aria-label="Letter ${letter}">${letter}</button>`).join('')}
+      </div>`).join('');
+
+        dom.touchPad.addEventListener('click', (event) => {
+            const key = event.target.closest('[data-key]');
+            if (key) document.dispatchEvent(new KeyboardEvent('keydown', { key: key.dataset.key }));
+        });
+    }
+
     function init() {
         cacheDom();
         buildDifficultyCards();
         buildHeroField();
+        buildTouchPad();
         buildLifePips();
         bindEvents();
 
