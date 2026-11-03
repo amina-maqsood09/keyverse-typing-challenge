@@ -1727,17 +1727,31 @@
     }
 }
 
-/* Touch screens (pointer: coarse): the keyboard panel doubles as the on-screen
-   keyboard. Keys are sized to fit a 320px phone in one row and give a press response. */
-@media (pointer: coarse) {
+/* Phones (up to 575px): the keyboard fits the screen width. Every row is the
+   full panel width and each key takes an equal share of it, so rows never
+   overflow and no horizontal scroll appears. Keys stay tall enough to tap. */
+@media (max-width: 575.98px) {
+    .km-keyboard-panel {
+        padding: 0.9rem 0.5rem 0.8rem;
+    }
+
+    .km-keyboard {
+        width: 100%;
+    }
+
     .km-kb-row {
-        gap: 3px;
+        width: 100%;
+        gap: 0.2rem;
     }
 
     .km-kb-key {
-        width: min(30px, calc((100vw - 4.5rem - 27px) / 10));
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: 40px;
+        width: auto;
         height: 40px;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
+        border-radius: 9px;
         cursor: pointer;
         touch-action: manipulation;
         -webkit-tap-highlight-color: transparent;
